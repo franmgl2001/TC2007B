@@ -1,4 +1,4 @@
-import { Admin, Resource, ShowGuesser} from "react-admin";
+import { Admin, Resource, ShowGuesser } from "react-admin";
 import { dataProvider } from './dataProvider';
 import { UserList } from "./users";
 import { PostList, PostEdit, PostCreate } from "./posts";
@@ -12,8 +12,8 @@ import { i18nProvider } from './i18nProvider';
 
 export const App = () => (
     <Admin authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard} i18nProvider={i18nProvider}>
-        
-        <Resource 
+
+        <Resource
             name="posts"
             list={PostList}
             edit={PostEdit}
@@ -32,5 +32,6 @@ export const App = () => (
             list={AlbumList}
             icon={PostIcon}
         />
+
     </Admin>
 );
