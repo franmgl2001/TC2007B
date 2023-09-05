@@ -14,24 +14,26 @@ export const App = () => (
     <Admin authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard} i18nProvider={i18nProvider}>
 
         <Resource
-            name="Posts"
+            name="posts"
             list={PostList}
             edit={PostEdit}
             create={PostCreate}
             icon={PostIcon}
-
+            options={{ label: 'Posts' }}
         />
         <Resource
-            name="Usuarios"
+            name="users"
             list={UserList}
             show={ShowGuesser}
             recordRepresentation="name"
             icon={UserIcon}
+            options={{ label: 'Usuarios' }}
         />
         <Resource
-            name="albumes"
+            name="albums"
             list={AlbumList}
             icon={PostIcon}
+            options={{ label: 'Albumes' }}
         />
 
     </Admin>
