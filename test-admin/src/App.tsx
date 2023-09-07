@@ -10,12 +10,14 @@ import { AlbumList } from "./components/albums";
 import { i18nProvider } from './i18nProvider';
 import ThemeToggler from "./hooks/theme";
 import { MyAppBar } from './components/appbar';
+import CustomLoginPage from './components/loginPage';
 
 const MyLayout = (props: any) => <Layout {...props} appBar={MyAppBar} />;
 
+
 export const App = () => (
     <Admin authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard} i18nProvider={i18nProvider}
-        darkTheme={{ palette: { mode: 'dark' } }}>
+        darkTheme={{ palette: { mode: 'dark' } }} loginPage={CustomLoginPage} >
 
         <Resource
             name="posts"
@@ -40,7 +42,6 @@ export const App = () => (
             icon={PostIcon}
             options={{ label: 'Albumes' }}
         />
-        <ThemeToggler />
 
     </Admin >
 ); 
