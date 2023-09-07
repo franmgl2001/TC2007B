@@ -1,4 +1,4 @@
-import { Admin, Resource, ShowGuesser } from "react-admin";
+import { Admin, Resource, ShowGuesser, Layout } from "react-admin";
 import { dataProvider } from './dataProvider';
 import { UserList } from "./components/users";
 import { PostList, PostEdit, PostCreate } from "./components/posts";
@@ -8,11 +8,14 @@ import { Dashboard } from './Dashboard';
 import { authProvider } from './authProvider';
 import { AlbumList } from "./components/albums";
 import { i18nProvider } from './i18nProvider';
-import { defaultDarkTheme } from "react-admin";
+import ThemeToggler from "./hooks/theme";
+import { MyAppBar } from './components/appbar';
 
+const MyLayout = (props: any) => <Layout {...props} appBar={MyAppBar} />;
 
 export const App = () => (
-    <Admin authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard} i18nProvider={i18nProvider} theme={defaultDarkTheme}>
+    <Admin authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard} i18nProvider={i18nProvider}
+        darkTheme={{ palette: { mode: 'dark' } }}>
 
         <Resource
             name="posts"
@@ -21,8 +24,8 @@ export const App = () => (
             create={PostCreate}
             icon={PostIcon}
             options={{ label: 'Posts' }}
-
         />
+
         <Resource
             name="users"
             list={UserList}
@@ -37,6 +40,7 @@ export const App = () => (
             icon={PostIcon}
             options={{ label: 'Albumes' }}
         />
+        <ThemeToggler />
 
-    </Admin>
+    </Admin >
 ); 
