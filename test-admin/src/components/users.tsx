@@ -1,5 +1,5 @@
 import { useMediaQuery, Theme } from "@mui/material";
-import { List, SimpleList, Datagrid, TextField, EmailField } from "react-admin";
+import { List, SimpleList, Datagrid, TextField, EmailField, SimpleForm, PasswordInput, TextInput, useUnique} from "react-admin";
 import MyUrlField from '../MyUrlField';
 
 export const UserList = () => {
@@ -25,5 +25,16 @@ export const UserList = () => {
                 </Datagrid>
             )}
         </List>
+    );  
+    
+};
+export const UserCreateForm = () => {
+    const unique = useUnique();
+    return (
+        <SimpleForm>
+            <TextInput source="username" validate={unique({ resource: 'users' })} />
+            <PasswordInput source="password" />
+        </SimpleForm>
     );
 };
+

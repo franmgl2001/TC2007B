@@ -1,6 +1,6 @@
 import { Admin, Resource, ShowGuesser, Layout } from "react-admin";
 import { dataProvider } from './dataProvider';
-import { UserList } from "./components/users";
+import { UserList,UserCreateForm } from "./components/users";
 import { PostList, PostEdit, PostCreate } from "./components/posts";
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
@@ -33,6 +33,7 @@ export const App = () => (
             name="users"
             list={UserList}
             show={ShowGuesser}
+            create = {UserCreateForm}
             recordRepresentation="name"
             icon={UserIcon}
             options={{ label: 'Usuarios' }}
