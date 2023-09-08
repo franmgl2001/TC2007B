@@ -13,6 +13,8 @@ import {
 
 } from "react-admin";
 
+import { UnselectButton } from '../hooks/unSelectButton';
+
 const PostTitle = () => {
     const record = useRecordContext();
     return <span>Post {record ? `"${record.title}"` : ''}</span>;
@@ -24,6 +26,7 @@ const postFilters = [
 ];
 
 export const PostList = () => (
+
     <List filters={postFilters}>
         <Datagrid>
             <TextField source="id" label="ID" />
@@ -31,6 +34,7 @@ export const PostList = () => (
             <TextField source="title" label="Título" />
             <EditButton />
         </Datagrid>
+        <UnselectButton />
     </List>
 );
 
