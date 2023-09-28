@@ -6,6 +6,7 @@ const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { registerUser, loginUser } = require("./userController");
+const { createTicket } = require("./ticketController");
 
 
 app.use(bodyParser.json());
@@ -26,17 +27,18 @@ app.post("/create/tickets", async (request, response) => {
     data = await db.collection('tickets').insertOne(addValue);
     response.json({ "statusCode": 200 });
 })
-
+// Register and Login File (userController.js)
 app.post("/register", async (request, response) => {
     registerUser(request, response, db, bcrypt);
 })
-
 
 app.post("/login", async (request, response) => {
     loginUser(request, response, db, bcrypt, jwt);
 })
 
-
+app.post("/create/tickets", async (request, response) => {
+    createTicket(request, response, db, jwt);
+})
 app.listen(port, () => {
     connectDB();
     console.log(`Example app listening on port ${port}`)
@@ -44,3 +46,4 @@ app.listen(port, () => {
 
 module.exports.app = app; // for testing
 module.exports.connectDB = connectDB; // for testing
+
