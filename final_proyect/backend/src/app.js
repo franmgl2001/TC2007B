@@ -36,8 +36,11 @@ app.post("/login", async (request, response) => {
     loginUser(request, response, db, bcrypt, jwt);
 })
 
-app.post("/create/tickets", async (request, response) => {
+app.post("/create/ticket", async (request, response) => {
     createTicket(request, response, db, jwt);
+})
+
+app.get("/tickets/:id", async (request, response) => {
 })
 app.listen(port, () => {
     connectDB();
