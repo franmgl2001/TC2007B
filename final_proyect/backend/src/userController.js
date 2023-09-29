@@ -1,3 +1,5 @@
+const { logger } = require("./logger");
+
 function checkPasswordLength(password) {
     if (password.length < 8) {
         return false;
@@ -37,18 +39,19 @@ const registerUser = async (request, response, db, bcrypt) => {
 };
 
 
-const loginUser = async (request, response, db, bcrypt, jwt) => {
+const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     let user = request.body.username;
     let pass = request.body.password;
     let data = await db.collection("users").findOne({ "username": user });
+
     if (data == null) {
         response.sendStatus(401);
     } else {
-        console.log(data);
         bcrypt.compare(pass, data.password, (error, result) => {
             if (result) {
-                let token = jwt.sign({ usuario: data.username }, "secretKey", { expiresIn: 3600 });
-                response.json({ "token": token, "id": data.user, "fullName": data.fullName })
+                let token = jwt.sign({ user: data.username }, "secretKey", { expiresIn: 3600 });
+                response.json({ "token": token, "id": data.username, "fullName": data.fullName })
+                logger(data.username, "login", "", db)
             } else {
                 response.sendStatus(401)
             }

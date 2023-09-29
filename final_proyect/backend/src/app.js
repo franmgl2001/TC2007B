@@ -7,11 +7,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { registerUser, loginUser } = require("./userController");
 const { createTicket } = require("./ticketController");
+const cors = require('cors');
+
 
 
 app.use(bodyParser.json());
+app.use(cors());
+
 
 let db;
+
 // DB Connection
 async function connectDB() {
     let client = new MongoClient("mongodb://localhost:27017/PorMexicoDev")
@@ -33,6 +38,7 @@ app.post("/register", async (request, response) => {
 })
 
 app.post("/login", async (request, response) => {
+    console.log("login");
     loginUser(request, response, db, bcrypt, jwt);
 })
 
@@ -40,7 +46,8 @@ app.post("/create/ticket", async (request, response) => {
     createTicket(request, response, db, jwt);
 })
 
-app.get("/tickets/:id", async (request, response) => {
+app.get("/get/tickets/:id", async (request, response) => {
+
 })
 app.listen(port, () => {
     connectDB();

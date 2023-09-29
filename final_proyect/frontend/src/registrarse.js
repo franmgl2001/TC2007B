@@ -1,33 +1,33 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-const Registrarse = () =>{
+const Registrarse = () => {
 
-    const [datos, setDatos]=useState({
+    const [datos, setDatos] = useState({
         username: "",
         password: "",
         fullName: "",
     });
 
-    const handleChange= (event)=>{
+    const handleChange = (event) => {
         setDatos({
             ...datos,
             [event.target.name]: event.target.value,
         });
     };
 
-    const handleSendData = async() => {
+    const handleSendData = async () => {
         // Convert the form data to JSON
-        const request = await new Request('http://127.0.0.1:1337/registrarse', {
+        const request = await new Request('http://127.0.0.1:3011/registrarse', {
             method: 'POST',
             body: JSON.stringify(datos),
-            headers: new Headers({ 'Content-Type': 'application/json'}),
+            headers: new Headers({ 'Content-Type': 'application/json' }),
         });
         try {
             const response = await fetch(request);
             if (response.status < 200 || response.status >= 300) {
                 throw new Error(response.statusText);
             }
-            
+
         } catch {
             throw new Error('No se pudo registrar el usuario');
         }
@@ -39,7 +39,7 @@ const Registrarse = () =>{
             <form>
                 <div>
                     <label htmlFor="username">Usuario: </label>
-                    <input 
+                    <input
                         type="text"
                         id="username"
                         name="username"
@@ -49,7 +49,7 @@ const Registrarse = () =>{
                 </div>
                 <div>
                     <label htmlFor="password">Password: </label>
-                    <input 
+                    <input
                         type="password"
                         id="password"
                         name="password"
@@ -59,7 +59,7 @@ const Registrarse = () =>{
                 </div>
                 <div>
                     <label htmlFor="fullName">Nombre Completo: </label>
-                    <input 
+                    <input
                         type="text"
                         id="fullName"
                         name="fullName"
