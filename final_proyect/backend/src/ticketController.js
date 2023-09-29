@@ -32,5 +32,6 @@ const getTicket = async (request, response, db, jwt) => {
 };
 
 module.exports = {
+    getTicket,
     createTicket
 };
