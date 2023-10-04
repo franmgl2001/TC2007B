@@ -3,10 +3,15 @@
 const validCollection = (collection) => {
     const validCollections = [
         "Servicios",
+        "Digital",
+        "Infraestructura",
+        "Recursos Humanos",
+        "Beneficiarios",
         "Mobiliario",
-        "Personal",
-        "Partes del Edificio",
-        "Prioridad"
+        "Seguridad",
+        "Materiales",
+        "Fenómenos Meteorológicos",
+        "Clasificación"
     ];
     return validCollections.includes(collection);
 }

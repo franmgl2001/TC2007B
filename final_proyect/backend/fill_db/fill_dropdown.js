@@ -23,56 +23,86 @@ data = {
     "Servicios": [
         "Agua",
         "Luz",
-        "Internet",
-        "Gas",
-        "Gestión de residuos (Basura)",
         "Teléfono",
+        "Basura",
+        "Limpieza del Aula"
+    ],
+
+    "Digital": [
+        "Intertet, Servidores y Equipos",
+        "Software",
+        "Hardware",
+        "Cámaras de seguridad",
+        "Soporte técnico presencial y remoto" 
+    ],
+
+    "Infraestructura": [
+        "Paredes",
+        "Techo",
+        "Ventanas",
+        "Puertas",
+        "Aulas en general"
+    ],
+
+    "Recursos Humanos": [
+        "Permisos",
+        "Asistencias",
         "Salud",
-        "Transporte",
-        "Mantenimiento básico",
-        "Educativos",
-        "Seguridad",
-        "Alimentos",
-        "Otro"
+        "Trámites",
+        "Honorarios"
+    ],
+
+    "Beneficiarios": [
+        "Asistencias",
+        "Documentación",
+        "Apoyo académico",
+        "Salud",
+        "Seguridad, bulling"
     ],
 
     "Mobiliario": [
-        "Armarios",
-        "Estanterías",
-        "Pizarras",
+        "Sillas, butacas",
         "Escritorios",
-        "Bancos",
-        "Taburetes",
-        "Sofás",
-        "Estantes",
-        "Camas",
-        "Otro",
+        "Pizarrones",
+        "Cafetería",
+        "Estantes, archiveros"
     ],
-    "Personal": [
-        "Coordinador de aula",
-        "Docente",
-        "Técnico/a de mantenimiento",
+
+    "Seguridad": [
+        "Delincuencia",
+        "Robos",
+        "Bandalismo",
+        "Imagen institucional",
+    ],
+
+    "Materiales": [
+        "Educativos",
+        "Papelería",
+        "Limpieza"
+    ],
+
+    "Fenómenos Meteorológicos": [
+        "Inundaciones",
+        "Incendios",
+        "Sismos",
+        "Huracanes",
+        "Tornados",
+        "Sismos"
+    ],
+
+    "Clasificación": [
+        "Servicios",
+        "Digital",
+        "Infraestructura",
+        "Recursos Humanos",
+        "Beneficiarios",
+        "Mobiliario",
         "Seguridad",
-        "Otro (especificar)",
-        "Beneficiario:",
-        "Estudiantes",
-        "Visitantes(familia, gobierno, empresa o familia)",
-        "Familias",
-        "Otro"],
-    "Partes del Edificio": [
-        "Aulas",
-        "Oficinas",
-        "Laboratorios",
-        "Salas de reuniones",
-        "Consultorios médicos",
-        "Bibliotecas",
-        "Gimnasios",
-        "Áreas de recreación",
-        "Ludoteca",
-        "Salas de espera",
-        "Otro "],
-    "Prioridad": ["Alta", "Media", "Baja"]
+        "Materiales",
+        "Fenómenos Meteorológicos",
+    ]
 };
+
 
 
 let db = connectDB();
