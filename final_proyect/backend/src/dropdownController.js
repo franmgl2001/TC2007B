@@ -6,7 +6,7 @@ const validCollection = (collection) => {
         "Mobiliario",
         "Personal",
         "Partes del Edificio",
-        "Prioridades"
+        "Prioridad"
     ];
     return validCollections.includes(collection);
 }

@@ -1,6 +1,8 @@
 import { fetchUtils } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 
+
+
 const fetchJsonUtil = (url, options = {}) => {
     if (!options.headers) {
         options.headers = new Headers({ Accept: "application/json" })
@@ -10,4 +12,4 @@ const fetchJsonUtil = (url, options = {}) => {
 };
 
 
-export const dataProvider = jsonServerProvider("http://127.0.0.1:3011", fetchJsonUtil);
+export const dataProvider = jsonServerProvider("http://localhost:3011", fetchJsonUtil);

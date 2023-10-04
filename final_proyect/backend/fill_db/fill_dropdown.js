@@ -71,7 +71,7 @@ data = {
         "Ludoteca",
         "Salas de espera",
         "Otro "],
-    "Prioridades": ["Alta", "Media", "Baja"]
+    "Prioridad": ["Alta", "Media", "Baja"]
 };
 
 

@@ -17,7 +17,7 @@ const Registrarse = () => {
 
     const handleSendData = async () => {
         // Convert the form data to JSON
-        const request = await new Request('http://127.0.0.1:3011/registrarse', {
+        const request = await new Request('http://127.0.0.1:3011/register', {
             method: 'POST',
             body: JSON.stringify(datos),
             headers: new Headers({ 'Content-Type': 'application/json' }),

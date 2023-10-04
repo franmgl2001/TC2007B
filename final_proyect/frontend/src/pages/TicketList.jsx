@@ -1,4 +1,5 @@
 import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create } from 'react-admin';
+import DropDown from '../components/DropDown';
 
 export const TicketList = () => (
     <List>
@@ -30,8 +31,9 @@ export const TicketCreate = () => (
         <SimpleForm>
             <TextInput source="id" disabled />
             <TextInput source="coordinador" />
-            <TextInput source="categoria" />
-            <TextInput source="subcategoria" />
+            <DropDown collection={"Servicios"} />
+            <DropDown collection={"Prioridad"} />
+            <DropDown collection={"Personal"} />
             <TextInput source="status" />
             <TextInput source="descripcion" />
             <TextInput source="comentario" multiline rows={5} />
