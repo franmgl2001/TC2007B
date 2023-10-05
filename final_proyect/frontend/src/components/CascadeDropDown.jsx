@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SelectInput } from 'react-admin';
 import axios from 'axios';
 
-const DropDown = ({ collection, setValue }) => {
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    }
+const CascadeDropDown = ({ collection, parentValue }) => {
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
@@ -22,13 +19,13 @@ const DropDown = ({ collection, setValue }) => {
                         authentication: `${authToken}`,
                         ContentType: 'application/json',
                     },
+                    params: {
+                        parentValue, // Pass the parentValue as a query parameter
+                    },
                 })
                 .then((response) => {
                     // Set the fetched data to the options state
-                    setOptions(response.data.map(option => ({
-                        id: option.name,
-                        name: option.name,
-                    })));
+                    setOptions(response.data);
                 })
                 .catch((error) => {
                     console.error('Error fetching data:', error);
@@ -36,21 +33,23 @@ const DropDown = ({ collection, setValue }) => {
         } else {
             setOptions([]);
         }
-    }, []); // Include parentValue in the dependency array
+    }, [parentValue]); // Include parentValue in the dependency array
     // Empty dependency array ensures the effect runs once after initial render
 
+    const choices = options.map(option => ({
+        id: option._id,
+        name: option.name,
+    }));
     return (
         <SelectInput
             label={collection}
-            source="categoria"
-            choices={[...options]}
+            source="subcategoria"
+            choices={[...choices]}
             optionText="name"
             optionValue="id"
-            onChange={handleChange}
         />
     );
 };
 
 
-export default DropDown;
-
+export default CascadeDropDown;
