@@ -1,5 +1,7 @@
 import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create } from 'react-admin';
 import DropDown from '../components/DropDown';
+import CascadeDropDown from '../components/CascadeDropDown';
+import React, { useState } from 'react';
 
 export const TicketList = () => (
     <List>
@@ -26,17 +28,19 @@ export const TicketEdit = () => (
     </Edit>
 );
 
-export const TicketCreate = () => (
-    <Create>
-        <SimpleForm>
-            <TextInput source="id" disabled />
-            <TextInput source="coordinador" />
-            <DropDown collection={"Servicios"} />
-            <DropDown collection={"Prioridad"} />
-            <DropDown collection={"Personal"} />
-            <TextInput source="status" />
-            <TextInput source="descripcion" />
-            <TextInput source="comentario" multiline rows={5} />
-        </SimpleForm>
-    </Create>
-);
+export const TicketCreate = () => {
+    const [selectedClasificacion, setSelectedClasificacion] = useState('Categoria');
+    return (
+        <Create>
+            <SimpleForm>
+                <TextInput source="id" disabled />
+                <TextInput source="coordinador" />
+                <DropDown collection={"Clasificación"} setValue={setSelectedClasificacion} />
+                <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} />
+                <TextInput source="status" />
+                <TextInput source="descripcion" />
+                <TextInput source="comentario" multiline rows={5} />
+            </SimpleForm>
+        </Create>
+    );
+};
