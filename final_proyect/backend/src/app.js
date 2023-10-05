@@ -6,7 +6,7 @@ const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { registerUser, loginUser } = require("./userController");
-const { createTicket, getAllTickets } = require("./ticketController");
+const { createTicket, getAllTickets, deleteTicket, getTicket } = require("./ticketController");
 const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
 
@@ -52,42 +52,14 @@ app.get("/tickets", async (request, response) => {
 })
 
 app.delete("/tickets/:id", async (request, response) => {
-    try {
-        const token = request.get("Authentication");
-        const verifiedToken = await jwt.verify(token, "secretKey");
-        const authData = await db.collection("usuarios").findOne({ "usuario": verifiedToken.usuario })
-
-        let parametersFind = { "id": Number(request.params.id) }
-        if (authData.permissions == "Coordinador") {
-            parametersFind["usuario"] = verifiedToken.usuario;
-        }
-        let data = await db.collection('tickets').deleteOne(parametersFind);
-        log(verifiedToken.usuario, "eliminar objeto", request.params.id)
-        response.json(data);
-    } catch {
-        response.json({});
-    }
+    deleteTicket(request, response, db, jwt);
 }
 );
 
 
 //getOne
 app.get("/tickets/:id", async (request, response) => {
-    try {
-        console.log(request.params.id);
-        let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let authData = await db.collection("usuarios").findOne({ "usuario": verifiedToken.usuario })
-        let parametersFind = { "id": Number(request.params.id) }
-        if (authData.permissions == "Coordinador") {
-            parametersFind["usuario"] = verifiedToken.usuario;
-        }
-        let data = await db.collection('tickets').find(parametersFind).project({ _id: 0 }).toArray();
-        log(verifiedToken.usuario, "ver objeto", request.params.id)
-        response.json(data[0]);
-    } catch {
-        response.json({});
-    }
+    getTicket(request, response, db, jwt);
 })
 
 // Getdropdown File (dropdownController.js)

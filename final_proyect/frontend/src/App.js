@@ -19,7 +19,6 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
       </CustomRoutes>
     </Admin>
-
   );
 };
 
