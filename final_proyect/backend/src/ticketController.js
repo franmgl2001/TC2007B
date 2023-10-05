@@ -1,5 +1,6 @@
 //create
 const createTicket = async (request, response, db, jwt) => {
+    console.log(request.body)
     try {
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");

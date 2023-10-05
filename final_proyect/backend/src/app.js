@@ -39,12 +39,12 @@ app.post("/register", async (request, response) => {
 })
 
 app.post("/login", async (request, response) => {
-    console.log("login");
     loginUser(request, response, db, bcrypt, jwt);
 })
 
 // Ticket File (ticketController.js)
-app.post("/create/ticket", async (request, response) => {
+app.post("/tickets", async (request, response) => {
+    console.log("Create Ticket")
     createTicket(request, response, db, jwt);
 })
 
