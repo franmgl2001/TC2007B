@@ -90,7 +90,7 @@ data = {
         "Sismos"
     ],
 
-    "Clasificación": [
+    "Categoría": [
         "Servicios",
         "Digital",
         "Infraestructura",
