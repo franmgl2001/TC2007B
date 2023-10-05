@@ -19,12 +19,10 @@ const getAllTickets = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
-        console.log(verifiedToken.user);
         let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
         if (authData.permissions == "Coordinador") {
             parametersFind["usuario"] = verifiedToken.usuario;
-            console.log(parametersFind);
         }
 
         if ("_sort" in request.query) {
@@ -58,25 +56,46 @@ const getAllTickets = async (request, response, db, jwt) => {
     }
 }
 
-const getTicket = async (request, response, db, jwt) => {
+const deleteTicket = async (request, response, db, jwt) => {
     try {
-        let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let authData = await db.collection("users").findOne({ "users": verifiedToken.users })
+        const token = request.get("Authentication");
+        const verifiedToken = await jwt.verify(token, "secretKey");
+        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+
         let parametersFind = { "id": Number(request.params.id) }
         if (authData.permissions == "Coordinador") {
-            parametersFind["usuario"] = verifiedToken.users;
+            parametersFind["user"] = verifiedToken.user;
         }
-        let data = await db.collection('tickets').find(parametersFind).project({ _id: 0 }).toArray();
-        log(verifiedToken.usuario, "ver objeto", request.params.id)
-        response.json(data[0]);
+        let data = await db.collection('tickets').deleteOne(parametersFind);
+        log(verifiedToken.usuario, "eliminar objeto", request.params.id)
+        response.json(data);
     } catch {
-        response.sendStatus(401);
+        response.json({});
+    }
+}
+
+const getTicket = async (request, response, db, jwt) => {
+    try {
+
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+        let parametersFind = { "id": Number(request.params.id) }
+        if (authData.permissions == "Coordinador") {
+            parametersFind["user"] = verifiedToken.user;
+        }
+        console.log(parametersFind)
+        let data = await db.collection('tickets').findOne(parametersFind);
+        console.log(data)
+        log(verifiedToken.usuario, "ver objeto", request.params.id)
+    } catch {
+        response.json({});
     }
 };
 
 module.exports = {
     getTicket,
     createTicket,
-    getAllTickets
+    getAllTickets,
+    deleteTicket
 };

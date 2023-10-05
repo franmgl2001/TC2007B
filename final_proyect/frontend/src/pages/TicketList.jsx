@@ -20,13 +20,7 @@ export const TicketList = () => (
 export const TicketEdit = () => (
     <Edit>
         <SimpleForm>
-            <TextInput source="id" disabled />
-            <TextInput source="coordinador" disabled />
-            <TextInput source="categoria" />
-            <TextInput source="subcategoria" />
-            <TextInput source="status" />
-            <TextInput source="descripcion" />
-            <TextInput source="comentario" multiline rows={5} />
+            <TextInput source="Categoría" disabled />
         </SimpleForm>
     </Edit>
 );
