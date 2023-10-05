@@ -50,7 +50,6 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
         bcrypt.compare(pass, data.password, (error, result) => {
             if (result) {
                 let token = jwt.sign({ user: data.username }, "secretKey", { expiresIn: 360000 });
-                console.log(token);
                 response.json({ "token": token, "id": data.username, "fullName": data.fullName })
                 logger(data.username, "login", "", db)
             } else {

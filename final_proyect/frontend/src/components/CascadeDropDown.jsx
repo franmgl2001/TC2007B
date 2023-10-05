@@ -22,7 +22,10 @@ const CascadeDropDown = ({ collection, parentValue }) => {
                 })
                 .then((response) => {
                     // Set the fetched data to the options state
-                    setOptions(response.data);
+                    setOptions(response.data.map(option => ({
+                        id: option.name,
+                        name: option.name,
+                    })));
                 })
                 .catch((error) => {
                     console.error('Error fetching data:', error);
@@ -33,15 +36,12 @@ const CascadeDropDown = ({ collection, parentValue }) => {
     }, [parentValue, collection]); // Include parentValue in the dependency array
     // Empty dependency array ensures the effect runs once after initial render
 
-    const choices = options.map(option => ({
-        id: option._id,
-        name: option.name,
-    }));
+
     return (
         <SelectInput
-            label={collection}
-            source={collection}
-            choices={[...choices]}
+            label={"SubCategoría"}
+            source={"SubCategoría"}
+            choices={[...options]}
             optionText="name"
             optionValue="id"
         />

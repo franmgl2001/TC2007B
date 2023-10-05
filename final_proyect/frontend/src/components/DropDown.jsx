@@ -18,27 +18,25 @@ const DropDown = ({ collection, setValue, Cascade }) => {
         const apiUrl = `http://localhost:3011/dropdown/${collection}`;
 
         // Fetch data from the API using Axios with the authentication header
-        if (collection !== 'SubCategoria') {
-            axios
-                .get(apiUrl, {
-                    headers: {
-                        authentication: `${authToken}`,
-                        ContentType: 'application/json',
-                    },
-                })
-                .then((response) => {
-                    // Set the fetched data to the options state
-                    setOptions(response.data.map(option => ({
-                        id: option.name,
-                        name: option.name,
-                    })));
-                })
-                .catch((error) => {
-                    console.error('Error fetching data:', error);
-                });
-        } else {
-            setOptions([]);
-        }
+
+        axios
+            .get(apiUrl, {
+                headers: {
+                    authentication: `${authToken}`,
+                    ContentType: 'application/json',
+                },
+            })
+            .then((response) => {
+                // Set the fetched data to the options state
+                setOptions(response.data.map(option => ({
+                    id: option.name,
+                    name: option.name,
+                })));
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+
     }, [collection]); // Include parentValue in the dependency array
     // Empty dependency array ensures the effect runs once after initial render
 

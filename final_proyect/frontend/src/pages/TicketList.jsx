@@ -4,14 +4,17 @@ import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
 
 export const TicketList = () => (
-    <List>
+    < List >
         <Datagrid rowClick="edit">
-            <TextField source="coordinador" />
-            <TextField source="categoria" />
-            <TextField source="subcategoria" />
-            <TextField source="status" />
+            <TextField source="Categoría" />
+            <TextField source="SubCategoría" />
+            <TextField source="Prioridad" />
+            <TextField source="Proceso" />
+            <TextField source="Status" />
+            <TextField source="Comentario" />
+            <TextField source="Resolución" />
         </Datagrid>
-    </List>
+    </List >
 );
 
 export const TicketEdit = () => (
@@ -29,17 +32,17 @@ export const TicketEdit = () => (
 );
 
 export const TicketCreate = () => {
-    const [selectedClasificacion, setSelectedClasificacion] = useState('SubCategoria');
+    const [selectedClasificacion, setSelectedClasificacion] = useState('SubCategoría');
     return (
         <Create>
             <SimpleForm>
-                <DropDown collection={"Clasificación"} setValue={setSelectedClasificacion} Cascade={true} />
+                <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} />
                 <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} />
                 <DropDown collection={"Prioridad"} setValue={null} Cascade={false} />
                 <TextInput source="Proceso" multiline rows={2} />
                 <DropDown collection={"Status"} setValue={null} Cascade={false} />
-                <TextInput source="comentario" multiline rows={5} />
-                <TextInput source="resolución" multiline rows={5} />
+                <TextInput source="Comentario" multiline rows={5} />
+                <TextInput source="Resolución" multiline rows={5} />
             </SimpleForm>
         </Create>
     );
