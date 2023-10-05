@@ -29,17 +29,17 @@ export const TicketEdit = () => (
 );
 
 export const TicketCreate = () => {
-    const [selectedClasificacion, setSelectedClasificacion] = useState('Categoria');
+    const [selectedClasificacion, setSelectedClasificacion] = useState('SubCategoria');
     return (
         <Create>
             <SimpleForm>
-                <TextInput source="id" disabled />
-                <TextInput source="coordinador" />
-                <DropDown collection={"Clasificación"} setValue={setSelectedClasificacion} />
+                <DropDown collection={"Clasificación"} setValue={setSelectedClasificacion} Cascade={true} />
                 <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} />
-                <TextInput source="status" />
-                <TextInput source="descripcion" />
+                <DropDown collection={"Prioridad"} setValue={null} Cascade={false} />
+                <TextInput source="Proceso" multiline rows={2} />
+                <DropDown collection={"Status"} setValue={null} Cascade={false} />
                 <TextInput source="comentario" multiline rows={5} />
+                <TextInput source="resolución" multiline rows={5} />
             </SimpleForm>
         </Create>
     );

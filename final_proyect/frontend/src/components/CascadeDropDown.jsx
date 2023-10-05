@@ -19,9 +19,6 @@ const CascadeDropDown = ({ collection, parentValue }) => {
                         authentication: `${authToken}`,
                         ContentType: 'application/json',
                     },
-                    params: {
-                        parentValue, // Pass the parentValue as a query parameter
-                    },
                 })
                 .then((response) => {
                     // Set the fetched data to the options state
@@ -33,7 +30,7 @@ const CascadeDropDown = ({ collection, parentValue }) => {
         } else {
             setOptions([]);
         }
-    }, [parentValue]); // Include parentValue in the dependency array
+    }, [parentValue, collection]); // Include parentValue in the dependency array
     // Empty dependency array ensures the effect runs once after initial render
 
     const choices = options.map(option => ({
@@ -43,7 +40,7 @@ const CascadeDropDown = ({ collection, parentValue }) => {
     return (
         <SelectInput
             label={collection}
-            source="subcategoria"
+            source={collection}
             choices={[...choices]}
             optionText="name"
             optionValue="id"

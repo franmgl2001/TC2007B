@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { SelectInput } from 'react-admin';
 import axios from 'axios';
 
-const DropDown = ({ collection, setValue }) => {
+const DropDown = ({ collection, setValue, Cascade }) => {
     const handleChange = (event) => {
-        setValue(event.target.value);
+        if (Cascade) {
+            setValue(event.target.value);
+        }
+
     }
     const [options, setOptions] = useState([]);
 
@@ -36,13 +39,13 @@ const DropDown = ({ collection, setValue }) => {
         } else {
             setOptions([]);
         }
-    }, []); // Include parentValue in the dependency array
+    }, [collection]); // Include parentValue in the dependency array
     // Empty dependency array ensures the effect runs once after initial render
 
     return (
         <SelectInput
             label={collection}
-            source="categoria"
+            source={collection}
             choices={[...options]}
             optionText="name"
             optionValue="id"

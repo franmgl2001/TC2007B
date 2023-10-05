@@ -33,7 +33,7 @@ data = {
         "Software",
         "Hardware",
         "Cámaras de seguridad",
-        "Soporte técnico presencial y remoto" 
+        "Soporte técnico presencial y remoto"
     ],
 
     "Infraestructura": [
@@ -100,7 +100,19 @@ data = {
         "Seguridad",
         "Materiales",
         "Fenómenos Meteorológicos",
-    ]
+    ],
+    "Prioridad":
+        [
+            "Alta",
+            "Media",
+            "Baja"
+        ],
+    "Status":
+        [
+            "Pendiente",
+            "En proceso",
+            "Resuelto"
+        ],
 };
 
 
