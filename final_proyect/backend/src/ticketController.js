@@ -17,6 +17,7 @@ const createTicket = async (request, response, db, jwt) => {
 
 const getAllTickets = async (request, response, db, jwt) => {
     try {
+        console.log(request.body)
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
@@ -24,7 +25,6 @@ const getAllTickets = async (request, response, db, jwt) => {
         if (authData.permissions == "Coordinador") {
             parametersFind["usuario"] = verifiedToken.usuario;
         }
-
         if ("_sort" in request.query) {
             let sortBy = request.query._sort;
             let sortOrder = request.query._order == "ASC" ? 1 : -1;
@@ -84,9 +84,7 @@ const getTicket = async (request, response, db, jwt) => {
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
         }
-        console.log(parametersFind)
         let data = await db.collection('tickets').findOne(parametersFind);
-        console.log(data)
         log(verifiedToken.usuario, "ver objeto", request.params.id)
     } catch {
         response.json({});
