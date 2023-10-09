@@ -5,7 +5,7 @@ import { TicketList, TicketEdit, TicketCreate } from './pages/TicketList';
 import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
-import LoginPage from './pages/loginpage';
+import LoginPage from './loginpage';
 
 
 const App = () => {
