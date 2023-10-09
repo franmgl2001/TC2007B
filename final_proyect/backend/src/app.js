@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { registerUser, loginUser } = require("./userController");
+const { registerUser, loginUser, getAllUsers } = require("./userController");
 const { createTicket, getAllTickets, deleteTicket, getTicket } = require("./ticketController");
 const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
@@ -34,8 +34,12 @@ app.post("/create/tickets", async (request, response) => {
     response.json({ "statusCode": 200 });
 })
 // Register and Login File (userController.js)
-app.post("/register", async (request, response) => {
+app.post("users", async (request, response) => {
     registerUser(request, response, db, bcrypt);
+})
+
+app.get("/users", async (request, response) => {
+    getAllUsers(request, response, db, jwt);
 })
 
 app.post("/login", async (request, response) => {
