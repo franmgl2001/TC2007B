@@ -12,4 +12,4 @@ const fetchJsonUtil = (url, options = {}) => {
 };
 
 
-export const dataProvider = jsonServerProvider("http://localhost:3011", fetchJsonUtil);
+export const dataProvider = jsonServerProvider("https://localhost:3011", fetchJsonUtil);

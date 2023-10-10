@@ -15,7 +15,7 @@ const DropDown = ({ collection, setValue, Cascade }) => {
         // Get the authentication token from localStorage
         const authToken = localStorage.getItem('auth');
 
-        const apiUrl = `http://localhost:3011/dropdown/${collection}`;
+        const apiUrl = `https://localhost:3011/dropdown/${collection}`;
 
         // Fetch data from the API using Axios with the authentication header
 

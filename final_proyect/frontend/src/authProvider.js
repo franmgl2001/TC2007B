@@ -1,9 +1,9 @@
-import { AuthProvider } from "react-admin";
+import decodeJwt from 'jwt-decode';
 
 const authProvider = {
     login: async ({ username, password }) => {
         console.log(username, password);
-        const request = new Request('http://127.0.0.1:3011/login', {
+        const request = new Request('https://localhost:3011/login', {
             method: 'POST',
             body: JSON.stringify({ "username": username, "password": password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -15,8 +15,9 @@ const authProvider = {
                 throw new Error(response.statusText);
             }
             const auth = await response.json();
+            const decodedToken = decodeJwt(auth.token);
             localStorage.setItem('auth', auth.token);
-            localStorage.setItem('identity', JSON.stringify({ "id": auth.id, "fullName": auth.fullName }));
+            localStorage.setItem('identity', JSON.stringify({ "id": auth.id, "fullName": auth.fullName, "permissions": decodedToken.permissions }));
             return Promise.resolve()
         } catch {
             throw new Error('Error en usuario o password');
