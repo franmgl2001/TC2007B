@@ -17,7 +17,8 @@ const authProvider = {
             const auth = await response.json();
             const decodedToken = decodeJwt(auth.token);
             localStorage.setItem('auth', auth.token);
-            localStorage.setItem('identity', JSON.stringify({ "id": auth.id, "fullName": auth.fullName, "permissions": decodedToken.permissions }));
+            localStorage.setItem('identity', JSON.stringify({ "id": auth.id, "fullName": auth.fullName }));
+            localStorage.setItem('permissions', decodedToken.permissions);
             return Promise.resolve()
         } catch {
             throw new Error('Error en usuario o password');
@@ -47,7 +48,11 @@ const authProvider = {
             return Promise.reject()
         }
     },
-    getPermissions: () => { return Promise.resolve() },
+    getPermissions: () => {
+        const role = localStorage.getItem('permissions');
+        console.log(role);
+        return role ? Promise.resolve(role) : Promise.reject()
+    },
 };
 
 export default authProvider;

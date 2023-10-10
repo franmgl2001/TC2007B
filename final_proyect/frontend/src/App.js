@@ -13,14 +13,20 @@ import UserIcon from "@mui/icons-material/Group";
 
 
 
+
+
 const MyLayout = (props) => <Layout {...props} appBar={MyAppBar} />;
 
 const App = () => {
   return (
 
     <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }}>
-      <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} icon={PostIcon}/>
-      <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} />
+
+
+      <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} icon={PostIcon} />
+      {permissions => permissions === 'Admin' && (
+        <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} />
+      )}
       <CustomRoutes>
         <Route path="/registrarse" element={<Registrarse />} />
       </CustomRoutes>
