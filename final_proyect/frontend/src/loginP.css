@@ -34,7 +34,7 @@
 	width: 100%;
 	background: url("./fund.png") no-repeat center; /* Relative path for the background image */
 	background-size: contain;
-	padding-bottom: 10px; /* Adjusted padding */
+	padding-bottom: 100px; /* Adjusted padding */
   }
   
   /* Login box style */
