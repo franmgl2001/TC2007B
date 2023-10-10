@@ -3,10 +3,17 @@
 const validCollection = (collection) => {
     const validCollections = [
         "Servicios",
+        "Digital",
+        "Infraestructura",
+        "Recursos Humanos",
+        "Beneficiarios",
         "Mobiliario",
-        "Personal",
-        "Partes del Edificio",
-        "Prioridad"
+        "Seguridad",
+        "Materiales",
+        "Fenómenos Meteorológicos",
+        "Categoría",
+        "Prioridad",
+        "Status"
     ];
     return validCollections.includes(collection);
 }
@@ -19,7 +26,6 @@ const getDropdown = async (request, response, db, jwt) => {
         // Gwt query string with collection name
         const collection = request.params.collection;
         // Check if collection is valid
-        console.log(collection);
         if (!validCollection(collection)) {
             throw new Error("Invalid collection");
         }
