@@ -5,12 +5,11 @@ import { TicketList, TicketEdit, TicketCreate } from './pages/TicketList';
 import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
-
 import LoginPage from './loginpage';
-
 import { MyAppBar } from './components/MyAppBar.js';
 import { UserList, UserCreate } from './pages/UserList';
-
+import PostIcon from "@mui/icons-material/Book";
+import UserIcon from "@mui/icons-material/Group";
 
 
 
@@ -20,8 +19,8 @@ const App = () => {
   return (
 
     <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }}>
-      <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} />
-      <Resource name="users" list={UserList} create={UserCreate} />
+      <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} icon={PostIcon}/>
+      <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} />
       <CustomRoutes>
         <Route path="/registrarse" element={<Registrarse />} />
       </CustomRoutes>

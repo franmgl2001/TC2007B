@@ -7,7 +7,7 @@ import { useMediaQuery } from '@mui/material';
 export const TicketList = () => (
     <List>
         <Datagrid rowClick="edit">
-            <TextField source="Coordinador" />
+            <TextField source="user" label="Coordinador" />
             <TextField source="Categoría" />
             <TextField source="SubCategoría" />
             <TextField source="Status" />
