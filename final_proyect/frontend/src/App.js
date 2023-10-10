@@ -19,7 +19,7 @@ const MyLayout = (props) => <Layout {...props} appBar={MyAppBar} />;
 const App = () => {
   return (
 
-    <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }}>>
+    <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }}>
       <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} />
       <Resource name="users" list={UserList} create={UserCreate} />
       <CustomRoutes>
