@@ -113,6 +113,18 @@ data = {
             "En proceso",
             "Resuelto"
         ],
+    "Aula":
+        [
+            "CDMX Centro",
+            "CDMX Occidente",
+            "CDMX Sur",
+            "CDMX Oriente",
+            "Monterrey",
+            "Guadalajara",
+            "Puebla",
+            "Querétaro",
+        ]
+
 };
 
 
