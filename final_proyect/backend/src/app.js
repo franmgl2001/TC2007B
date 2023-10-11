@@ -9,6 +9,7 @@ const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
+const { PriorityChart } = require('./reportController');
 
 // Declare app and port
 const app = express()
@@ -71,8 +72,6 @@ app.delete("/tickets/:id", async (request, response) => {
 }
 );
 
-
-//getOne
 app.get("/tickets/:id", async (request, response) => {
     getTicket(request, response, db, jwt);
 })
@@ -83,8 +82,12 @@ app.get("/dropdown/:collection", async (request, response) => {
 
 })
 
+// Report File (reportController.js)
+app.get("/report/priority", async (request, response) => {
+    PriorityChart(request, response, db, jwt);
+})
 
-
+// Start server
 https.createServer(credentials, app).listen(port, () => {
     connectDB();
     console.log(`Example app listening on port ${port}`)

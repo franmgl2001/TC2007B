@@ -1,13 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { Admin, Resource, CustomRoutes, Layout } from 'react-admin';
-import { TicketList, TicketEdit, TicketCreate } from './pages/TicketList';
+import { TicketList, TicketEdit, TicketCreate } from './Resources/TicketList';
 import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
 import LoginPage from './loginpage';
 import { MyAppBar } from './components/MyAppBar.js';
-import { UserList, UserCreate } from './pages/UserList';
+import { UserList, UserCreate } from './Resources/UserList';
+import { ReportList } from './Resources/ReportList';
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 
@@ -27,6 +28,7 @@ const App = () => {
       {permissions => permissions === 'Admin' && (
         <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} />
       )}
+      <Resource name="reports" list={ReportList} />
       <CustomRoutes>
         <Route path="/registrarse" element={<Registrarse />} />
       </CustomRoutes>
