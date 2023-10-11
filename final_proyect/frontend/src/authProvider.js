@@ -2,7 +2,6 @@ import decodeJwt from 'jwt-decode';
 
 const authProvider = {
     login: async ({ username, password }) => {
-        console.log(username, password);
         const request = new Request('https://localhost:3011/login', {
             method: 'POST',
             body: JSON.stringify({ "username": username, "password": password }),
@@ -11,7 +10,6 @@ const authProvider = {
         try {
             const response = await fetch(request);
             if (response.status < 200 || response.status >= 300) {
-                console.log(response);
                 throw new Error(response.statusText);
             }
             const auth = await response.json();
@@ -50,7 +48,6 @@ const authProvider = {
     },
     getPermissions: () => {
         const role = localStorage.getItem('permissions');
-        console.log(role);
         return role ? Promise.resolve(role) : Promise.reject()
     },
 };

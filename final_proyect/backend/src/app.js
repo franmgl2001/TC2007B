@@ -84,7 +84,6 @@ app.get("/dropdown/:collection", async (request, response) => {
 
 // Report File (reportController.js)
 app.get("/report/priority", async (request, response) => {
-    console.log("here")
     PriorityChart(request, response, db, jwt);
 })
 
