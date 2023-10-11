@@ -1,9 +1,9 @@
-import { Datagrid, List, TextField, SimpleForm, Create } from 'react-admin';
+import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput } from 'react-admin';
 
 
 export const UserList = () => (
     < List >
-        <Datagrid rowClick="edit">
+        <Datagrid >
             <TextField source="username" />
             <TextField source="fullName" />
             <TextField source="email" />
@@ -17,11 +17,13 @@ export const UserCreate = () => {
     return (
         <Create>
             <SimpleForm>
-                <TextField source="username" />
-                <TextField source="password" />
-                <TextField source="fullName" />
-                <TextField source="email" />
-                <TextField source="Permissions" />
+                <div style={{ gap: 80, display: 'flex' }}>
+                    <TextInput source="username" />
+                    <PasswordInput source="password" />
+                    <TextInput source="fullName" />
+                    <TextInput source="email" />
+                    <TextInput source="permissions" />
+                </div>
             </SimpleForm>
         </Create>
     );
