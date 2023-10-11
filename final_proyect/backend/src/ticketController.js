@@ -17,13 +17,12 @@ const createTicket = async (request, response, db, jwt) => {
 
 const getAllTickets = async (request, response, db, jwt) => {
     try {
-        console.log(request.body)
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
         if (authData.permissions == "Coordinador") {
-            parametersFind["usuario"] = verifiedToken.usuario;
+            parametersFind["usuario"] = verifiedToken.user;
         }
         if ("_sort" in request.query) {
             let sortBy = request.query._sort;

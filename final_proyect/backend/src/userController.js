@@ -49,7 +49,7 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     } else {
         bcrypt.compare(pass, data.password, (error, result) => {
             if (result) {
-                let token = jwt.sign({ user: data.username }, "secretKey", { expiresIn: 360000 });
+                let token = jwt.sign({ user: data.username, permissions: data.permissions }, "secretKey", { expiresIn: 360000 });
                 response.json({ "token": token, "id": data.username, "fullName": data.fullName })
                 logger(data.username, "login", "", db)
             } else {

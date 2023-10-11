@@ -1,6 +1,4 @@
 const express = require('express')
-const app = express()
-const port = 3011
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
@@ -9,7 +7,20 @@ const { registerUser, loginUser, getAllUsers } = require("./userController");
 const { createTicket, getAllTickets, deleteTicket, getTicket } = require("./ticketController");
 const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
+// Declare app and port
+const app = express()
+const port = 3011
+
+const privateKey = fs.readFileSync('./keys/private.key');
+const certificate = fs.readFileSync('./keys/server.crt');
+
+const credentials = {
+    key: privateKey,
+    cert: certificate,
+};
 
 
 app.use(bodyParser.json());
@@ -34,7 +45,7 @@ app.post("/create/tickets", async (request, response) => {
     response.json({ "statusCode": 200 });
 })
 // Register and Login File (userController.js)
-app.post("users", async (request, response) => {
+app.post("/users", async (request, response) => {
     registerUser(request, response, db, bcrypt);
 })
 
@@ -69,12 +80,18 @@ app.get("/tickets/:id", async (request, response) => {
 // Getdropdown File (dropdownController.js)
 app.get("/dropdown/:collection", async (request, response) => {
     getDropdown(request, response, db, jwt);
+
 })
-app.listen(port, () => {
+
+
+
+https.createServer(credentials, app).listen(port, () => {
     connectDB();
     console.log(`Example app listening on port ${port}`)
 })
 
 module.exports.app = app; // for testing
 module.exports.connectDB = connectDB; // for testing
+
+
 
