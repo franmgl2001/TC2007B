@@ -5,9 +5,7 @@ import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 
-
-
-const GroupedClassroomBar = () => {
+const GroupedClassroomBar = ({ dynamicValue }) => {
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [],
@@ -33,9 +31,10 @@ const GroupedClassroomBar = () => {
     };
 
     useEffect(() => {
+        const apiUrl = `https://localhost:3011/report/classroom/${dynamicValue}`;
         const authToken = localStorage.getItem('auth');
         // Make an API request using Axios
-        axios.get('https://localhost:3011/report/classroom/Prioridad', {
+        axios.get(apiUrl, {
             headers: {
                 authentication: `${authToken}`,
                 ContentType: 'application/json',
@@ -67,6 +66,7 @@ const GroupedClassroomBar = () => {
                     'rgba(53, 62, 25, 0.6)',     // Low
                     'rgba(54, 162, 235, 0.6)',   // Medium
                     'rgba(255, 99, 132, 0.6)',   // High
+
                 ]
                 setChartData(data);
             })
@@ -80,7 +80,7 @@ const GroupedClassroomBar = () => {
 
 
     return (
-        <div style={{ width: '400px', height: '300px' }}>
+        <div >
             <Bar options={options} data={chartData} />;
         </div>
     )

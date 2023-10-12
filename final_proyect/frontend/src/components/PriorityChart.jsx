@@ -7,13 +7,13 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-const PriorityChart = () => {
+const PriorityChart = ({ dynamicValue }) => {
     const [chartData, setChartData] = useState({
-        labels: ["Alta", "Baja"],
+        labels: [],
         datasets: [
             {
                 label: 'Priority',
-                data: [1, 2],
+                data: [],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -27,10 +27,11 @@ const PriorityChart = () => {
         ]
     });
 
+    const authToken = localStorage.getItem('auth');
+    const apiUrl = `https://localhost:3011/report/pie/${dynamicValue}`;
     useEffect(() => {
-        const authToken = localStorage.getItem('auth');
         // Make an API request using Axios
-        axios.get('https://localhost:3011/report/priority', {
+        axios.get(apiUrl, {
             headers: {
                 authentication: `${authToken}`,
                 ContentType: 'application/json',
@@ -38,11 +39,12 @@ const PriorityChart = () => {
         })
             .then(response => {
                 // Prepare data here (as shown in previous examples) and set it in state
+                console.log(dynamicValue);
                 let data = {
                     labels: [],
                     datasets: [
                         {
-                            label: 'Priority',
+                            label: dynamicValue,
                             data: [],
                             backgroundColor: [
                                 'rgba(53, 62, 25, 0.6)',     // Low
@@ -62,6 +64,7 @@ const PriorityChart = () => {
                         },
                     ]
                 };
+                console.log(response.data);
                 // Set data labels to report data keys
                 data.labels = Object.keys(response.data);
                 // Set data values to report data values
@@ -75,7 +78,7 @@ const PriorityChart = () => {
 
 
     return (
-        <div style={{ width: '200px', height: '200px' }}>
+        <div>
             <Pie
                 data={chartData}
                 options={{

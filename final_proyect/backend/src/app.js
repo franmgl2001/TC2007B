@@ -100,7 +100,7 @@ app.get("/dropdown/:collection", async (request, response) => {
 })
 
 // Report File (reportController.js)
-app.get("/report/priority", async (request, response) => {
+app.get("/report/pie/:collection", async (request, response) => {
     priorityChart(request, response, db, jwt);
 })
 

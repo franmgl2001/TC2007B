@@ -16,7 +16,7 @@ export const UserList = () => (
 export const UserCreate = () => {
     return (
         <Create>
-            <SimpleForm>
+            <SimpleForm >
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" />
                     <PasswordInput source="password" />

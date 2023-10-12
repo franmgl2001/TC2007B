@@ -5,20 +5,23 @@ const priorityChart = async (request, response, db, jwt) => {
         const verifiedToken = await jwt.verify(token, "secretKey");
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
+        const collection = request.params.collection;
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
         }
         const data = await db.collection('tickets').find(parametersFind).toArray();
+        const collectionData = await db.collection(collection).find().toArray();
         let dataPriority = {}
-        // FIll dataPriority
 
-        dataPriority["Baja"] = 0
-        dataPriority["Media"] = 0
-        dataPriority["Alta"] = 0
+
+        collectionData.forEach(element => {
+            dataPriority[element["name"]] = 0
+        });
+
 
         data.forEach(element => {
-            if (element.Prioridad in dataPriority) {
-                dataPriority[element.Prioridad] += 1
+            if (element[collection] in dataPriority) {
+                dataPriority[element[collection]] += 1
             }
         }
         );
@@ -29,22 +32,25 @@ const priorityChart = async (request, response, db, jwt) => {
 }
 
 const classroomChart = async (request, response, db, jwt) => {
+    try {
+        const token = request.get("Authentication");
+        const verifiedToken = await jwt.verify(token, "secretKey");
+        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+        let parametersFind = {}
+        const collection = request.params.collection;
+        if (authData.permissions == "Coordinador") {
+            parametersFind["user"] = verifiedToken.user;
+        }
 
-    const token = request.get("Authentication");
-    const verifiedToken = await jwt.verify(token, "secretKey");
-    const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
-    let parametersFind = {}
-    const collection = request.params.collection;
-    if (authData.permissions == "Coordinador") {
-        parametersFind["user"] = verifiedToken.user;
+        // FIll dataClassroom
+        const data = await db.collection('tickets').find(parametersFind).toArray();
+        const collectionData = await db.collection(collection).find().toArray();
+        let dataClassroom = {}
+        dataClassroom = orderClassroomData(data, collection, collectionData)
+        response.json(dataClassroom);
+    } catch {
+        response.sendStatus(401);
     }
-
-    // FIll dataClassroom
-    const data = await db.collection('tickets').find(parametersFind).toArray();
-    const collectionData = await db.collection(collection).find().toArray();
-    let dataClassroom = {}
-    dataClassroom = orderClassroomData(data, collection, collectionData)
-    response.json(dataClassroom);
 
 }
 
