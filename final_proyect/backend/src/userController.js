@@ -43,13 +43,14 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     let user = request.body.username;
     let pass = request.body.password;
     let data = await db.collection("users").findOne({ "username": user });
+    console.log(jwt)
 
     if (data == null) {
         response.sendStatus(401);
     } else {
         bcrypt.compare(pass, data.password, (error, result) => {
             if (result) {
-                let token = jwt.sign({ user: data.username }, "secretKey", { expiresIn: 3600 });
+                let token = jwt.sign({ user: data.username, permissions: data.permissions }, "secretKey", { expiresIn: 360000 });
                 response.json({ "token": token, "id": data.username, "fullName": data.fullName })
                 logger(data.username, "login", "", db)
             } else {
@@ -59,8 +60,27 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     }
 };
 
+const getAllUsers = async (request, response, db, jwt) => {
+    try {
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.user;
+        let admin_user = await db.collection("users").findOne({ "username": user });
+        if (admin_user.permissions != "Admin") {
+            response.sendStatus(401);
+        }
+        let data = await db.collection("users").find().project({ _id: 0 }).toArray();
+        response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+        response.set('X-Total-Count', data.length)
+
+        response.json(data);
+    } catch {
+        response.sendStatus(401);
+    }
+}
 
 module.exports = {
     registerUser,
     loginUser,
+    getAllUsers
 };

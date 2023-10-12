@@ -1,9 +1,8 @@
-import { AuthProvider } from "react-admin";
+import decodeJwt from 'jwt-decode';
 
 const authProvider = {
     login: async ({ username, password }) => {
-        console.log(username, password);
-        const request = new Request('http://127.0.0.1:3011/login', {
+        const request = new Request('https://localhost:3011/login', {
             method: 'POST',
             body: JSON.stringify({ "username": username, "password": password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -11,12 +10,13 @@ const authProvider = {
         try {
             const response = await fetch(request);
             if (response.status < 200 || response.status >= 300) {
-                console.log(response);
                 throw new Error(response.statusText);
             }
             const auth = await response.json();
+            const decodedToken = decodeJwt(auth.token);
             localStorage.setItem('auth', auth.token);
             localStorage.setItem('identity', JSON.stringify({ "id": auth.id, "fullName": auth.fullName }));
+            localStorage.setItem('permissions', decodedToken.permissions);
             return Promise.resolve()
         } catch {
             throw new Error('Error en usuario o password');
@@ -46,7 +46,10 @@ const authProvider = {
             return Promise.reject()
         }
     },
-    getPermissions: () => { return Promise.resolve() },
+    getPermissions: () => {
+        const role = localStorage.getItem('permissions');
+        return role ? Promise.resolve(role) : Promise.reject()
+    },
 };
 
 export default authProvider;
