@@ -1,3 +1,5 @@
+const { logger } = require("./logger");
+
 //create
 const createTicket = async (request, response, db, jwt) => {
     try {
@@ -66,33 +68,63 @@ const deleteTicket = async (request, response, db, jwt) => {
             parametersFind["user"] = verifiedToken.user;
         }
         let data = await db.collection('tickets').deleteOne(parametersFind);
-        log(verifiedToken.usuario, "eliminar objeto", request.params.id)
+        logger(verifiedToken.usuario, "eliminar objeto", request.params.id)
         response.json(data);
     } catch {
-        response.json({});
+        rresponse.sendStatus(401);
     }
 }
 
 const getTicket = async (request, response, db, jwt) => {
     try {
-
-        let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+        const token = request.get("Authentication");
+        const verifiedToken = await jwt.verify(token, "secretKey");
+        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = { "id": Number(request.params.id) }
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
         }
         let data = await db.collection('tickets').findOne(parametersFind);
-        log(verifiedToken.usuario, "ver objeto", request.params.id)
+        // Remove _id from object
+        delete data["_id"]
+        logger(verifiedToken.user, "ver ticket", request.params.id, db)
+        response.json(data);
     } catch {
-        response.json({});
+        response.sendStatus(401);
     }
 };
+
+const updateTicket = async (request, response, db, jwt) => {
+    try {
+        const token = request.get("Authentication");
+        const verifiedToken = await jwt.verify(token, "secretKey");
+        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+        let parametersFind = {}
+
+        if (authData.permissions == "Coordinador") {
+            parametersFind["user"] = verifiedToken.user;
+        }
+        parametersFind["id"] = Number(request.params.id)
+        const updateValue = request.body;
+        await db.collection('tickets').updateOne(parametersFind, { $set: updateValue });
+
+        let data = await db.collection('tickets').findOne(parametersFind);
+        // Remove _id from object
+        delete data["_id"]
+
+        await logger(verifiedToken.user, "actualizar ticket", request.params.id, db)
+        response.json(data);
+    }
+    catch {
+        response.sendStatus(401);
+    }
+
+}
 
 module.exports = {
     getTicket,
     createTicket,
     getAllTickets,
-    deleteTicket
+    deleteTicket,
+    updateTicket
 };

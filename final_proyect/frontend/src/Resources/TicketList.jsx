@@ -11,6 +11,9 @@ export const TicketList = () => (
             <TextField source="user" label="Coordinador" />
             <TextField source="Categoría" />
             <TextField source="SubCategoría" />
+            <TextField source="Prioridad" />
+            <TextField source="Aula" />
+            <TextField source="Proceso" />
             <TextField source="Status" />
             <TextField source="Fecha de Incidente" />
             <EditButton basePath="TicketEdit" />
@@ -47,7 +50,7 @@ export const TicketCreate = () => {
                     <DateInput source="Fecha de Incidente" />
                 </div>
                 <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
-                    <TextInput source="Aula" sx={{ width: '100%', marginBottom: isSmallScreen ? '10px' : '0' }} />
+                    <DropDown collection="Aula" sx={{ width: '100%', marginBottom: isSmallScreen ? '10px' : '0' }} />
                     <TextInput source="NumeroOficio" sx={{ width: '100%', marginBottom: isSmallScreen ? '10px' : '0' }} />
                 </div>
 

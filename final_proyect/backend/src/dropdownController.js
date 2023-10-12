@@ -13,7 +13,8 @@ const validCollection = (collection) => {
         "Fenómenos Meteorológicos",
         "Categoría",
         "Prioridad",
-        "Status"
+        "Status",
+        "Aula"
     ];
     return validCollections.includes(collection);
 }
