@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { registerUser, loginUser, getAllUsers } = require("./userController");
-const { createTicket, getAllTickets, deleteTicket, getTicket } = require("./ticketController");
+const { createTicket, getAllTickets, deleteTicket, getTicket, updateTicket } = require("./ticketController");
 const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
 const https = require('https');
@@ -69,6 +69,11 @@ app.get("/tickets", async (request, response) => {
 
 app.delete("/tickets/:id", async (request, response) => {
     deleteTicket(request, response, db, jwt);
+}
+);
+
+app.put("/tickets/:id", async (request, response) => {
+    updateTicket(request, response, db, jwt);
 }
 );
 

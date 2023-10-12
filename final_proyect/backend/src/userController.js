@@ -43,6 +43,7 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     let user = request.body.username;
     let pass = request.body.password;
     let data = await db.collection("users").findOne({ "username": user });
+    console.log(jwt)
 
     if (data == null) {
         response.sendStatus(401);
