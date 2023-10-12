@@ -6,11 +6,12 @@ import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
 import LoginPage from './loginpage';
+import { i18nProvider } from './i18nProvider';
 
 
 const App = () => {
   return (
-    <Admin dataProvider={dataProvider} authProvider={authProvider} loginPage = {LoginPage}>
+    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} loginPage = {LoginPage}>
       <Resource name="tickets" list={TicketList} edit={TicketEdit} create={TicketCreate} />
       <CustomRoutes>
         <Route path="/registrarse" element={<Registrarse />} />
