@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { registerUser, loginUser, getAllUsers } = require("./userController");
-const { createTicket, getAllTickets, deleteTicket, getTicket, updateTicket } = require("./ticketController");
+const { registerUser, loginUser, getAllUsers, getUser, updateUser } = require("./userController");
+const { createTicket, getAllTickets, deleteTicket, getTicket, updateTicket, deleteUser } = require("./ticketController");
 const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
 const https = require('https');
@@ -57,6 +57,18 @@ app.get("/users", async (request, response) => {
 app.post("/login", async (request, response) => {
     loginUser(request, response, db, bcrypt, jwt);
 })
+
+app.get("/users/:id", async (request, response) => {
+    getUser(request, response, db, jwt);
+})
+
+app.put("/users/:id", async (request, response) => {
+    updateUser(request, response, db, jwt);
+});
+
+app.delete("/users/:id", async (request, response) => {
+    deleteUser(request, response, db, jwt);
+});
 
 // Ticket File (ticketController.js)
 app.post("/tickets", async (request, response) => {

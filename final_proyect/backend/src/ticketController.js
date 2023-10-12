@@ -68,10 +68,10 @@ const deleteTicket = async (request, response, db, jwt) => {
             parametersFind["user"] = verifiedToken.user;
         }
         let data = await db.collection('tickets').deleteOne(parametersFind);
-        logger(verifiedToken.usuario, "eliminar objeto", request.params.id)
+        logger(verifiedToken.user, "eliminar objeto", request.params.id)
         response.json(data);
     } catch {
-        rresponse.sendStatus(401);
+        response.sendStatus(401);
     }
 }
 

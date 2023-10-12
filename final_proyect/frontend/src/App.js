@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { Admin, Resource, CustomRoutes, Layout, ShowGuesser, EditGuesser } from 'react-admin';
-import { TicketList, TicketEdit, TicketCreate } from './Resources/TicketList';
+import { TicketList, TicketCreate } from './Resources/TicketList';
 import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
 import LoginPage from './loginpage';
-
 import { i18nProvider } from './i18nProvider';
-
 import { MyAppBar } from './components/MyAppBar.js';
 import { UserList, UserCreate } from './Resources/UserList';
 import { ReportList } from './Resources/ReportList';
