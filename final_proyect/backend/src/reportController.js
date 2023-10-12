@@ -1,6 +1,13 @@
 
-const PriorityChart = async (req, res, db,) => {
-    const data = await db.collection('tickets').find().toArray();
+const PriorityChart = async (req, res, db, jwt) => {
+    const token = request.get("Authentication");
+    const verifiedToken = await jwt.verify(token, "secretKey");
+    const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+    let parametersFind = {}
+    if (authData.permissions == "Coordinador") {
+        parametersFind["user"] = verifiedToken.user;
+    }
+    const data = await db.collection('tickets').find(parametersFind).toArray();
     let dataPriority = {}
     // FIll dataPriority
 
