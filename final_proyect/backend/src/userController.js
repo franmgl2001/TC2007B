@@ -17,7 +17,6 @@ const registerUser = async (request, response, db, bcrypt) => {
     if (!checkPasswordLength(pass)) {
         response.sendStatus(400);
     }
-
     let data = await db.collection("users").findOne({ "username": user });
     if (data == null) {
         try {
@@ -43,7 +42,6 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     let user = request.body.username;
     let pass = request.body.password;
     let data = await db.collection("users").findOne({ "username": user });
-    console.log(jwt)
 
     if (data == null) {
         response.sendStatus(401);
@@ -78,9 +76,78 @@ const getAllUsers = async (request, response, db, jwt) => {
         response.sendStatus(401);
     }
 }
+const getUser = async (request, response, db, jwt) => {
+    try {
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.user;
+        let admin_user = await db.collection("users").findOne({ "username": user });
+        if (admin_user.permissions != "Admin") {
+            response.sendStatus(401);
+        }
+        let data = await db.collection("users").findOne({ "username": request.params.id });
+        logger(user, "ver usuario", request.params.id, db)
+        response.json(data);
+    }
+    catch {
+        response.sendStatus(401);
+    }
+}
+
+const updateUser = async (request, response, db, jwt) => {
+    try {
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.user;
+        let admin_user = await db.collection("users").findOne({ "username": user });
+        if (admin_user.permissions != "Admin") {
+            response.sendStatus(401);
+        }
+        const UpdateObject = request.body;
+        const filter = { "id": request.params.id };
+
+        // check that password is not on UpdateObject
+        if (UpdateObject.password) {
+            response.sendStatus(401);
+        }
+        await db.collection("users").updateOne(filter, { $set: UpdateObject });
+        let data = await db.collection("users").findOne(filter);
+        delete data["_id"]
+        logger(user, "actualizar usuario", request.params.id, db)
+        response.json(data);
+    }
+    catch {
+        response.sendStatus(401);
+    }
+}
+
+const deleteUser = async (request, response, db, jwt) => {
+    try {
+        console.log("deleteUser")
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.user;
+        let admin_user = await db.collection("users").findOne({ "username": user });
+        if (admin_user.permissions != "Admin") {
+            response.sendStatus(401);
+        }
+        const filter = { "id": Number(request.params.id) };
+        console.log(filter)
+        await db.collection("users").deleteOne(filter);
+        logger(user, "eliminar usuario", request.params.id, db)
+        response.json({ "status": "ok" });
+    }
+    catch {
+        console.log("error")
+        response.sendStatus(401);
+    }
+}
 
 module.exports = {
     registerUser,
     loginUser,
-    getAllUsers
+    getAllUsers,
+    getUser,
+    updateUser,
+    deleteUser
 };
