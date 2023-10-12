@@ -9,7 +9,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
-    "eslint": "^5.16.0",
     "ra-data-json-server": "^4.14.1",
     "ra-language-spanish": "^1.0.0",
     "react": "^18.2.0",
@@ -42,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-react-app": "^7.0.1"
   }
 }
