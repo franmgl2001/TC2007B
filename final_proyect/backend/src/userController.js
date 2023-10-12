@@ -123,7 +123,6 @@ const updateUser = async (request, response, db, jwt) => {
 
 const deleteUser = async (request, response, db, jwt) => {
     try {
-        console.log("deleteUser")
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let user = verifiedToken.user;
@@ -132,7 +131,6 @@ const deleteUser = async (request, response, db, jwt) => {
             response.sendStatus(401);
         }
         const filter = { "id": Number(request.params.id) };
-        console.log(filter)
         await db.collection("users").deleteOne(filter);
         logger(user, "eliminar usuario", request.params.id, db)
         response.json({ "status": "ok" });
