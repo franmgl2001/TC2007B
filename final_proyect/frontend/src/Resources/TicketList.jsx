@@ -1,25 +1,29 @@
-import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create, DateInput } from 'react-admin';
+import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create, DateInput, usePermissions } from 'react-admin';
 import DropDown from '../components/DropDown';
 import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import { EditButton } from 'react-admin';
 
-export const TicketList = () => (
-    <List>
-        <Datagrid rowClick="show">
-            <TextField source="user" label="Coordinador" />
-            <TextField source="Categoría" />
-            <TextField source="SubCategoría" />
-            <TextField source="Prioridad" />
-            <TextField source="Aula" />
-            <TextField source="Proceso" />
-            <TextField source="Status" />
-            <TextField source="Fecha de Incidente" />
-            <EditButton basePath="TicketEdit" />
-        </Datagrid>
-    </List>
-);
+export const TicketList = () => {
+    const { permissions } = usePermissions();
+    return (
+        <List>
+            <Datagrid rowClick="show">
+                {permissions === 'Admin' &&
+                    <TextField source="user" label="Coordinador" />}
+                <TextField source="Categoría" />
+                <TextField source="SubCategoría" />
+                <TextField source="Prioridad" />
+                <TextField source="Aula" />
+                <TextField source="Proceso" />
+                <TextField source="Status" />
+                <TextField source="Fecha de Incidente" />
+                <EditButton basePath="TicketEdit" />
+            </Datagrid>
+        </List>
+    )
+};
 
 export const TicketEdit = () => (
     <Edit>

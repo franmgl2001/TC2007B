@@ -7,7 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-const PriorityChart = ({ }) => {
+const PriorityChart = () => {
     const [chartData, setChartData] = useState({
         labels: ["Alta", "Baja"],
         datasets: [
@@ -28,8 +28,14 @@ const PriorityChart = ({ }) => {
     });
 
     useEffect(() => {
+        const authToken = localStorage.getItem('auth');
         // Make an API request using Axios
-        axios.get('https://localhost:3011/report/priority')
+        axios.get('https://localhost:3011/report/priority', {
+            headers: {
+                authentication: `${authToken}`,
+                ContentType: 'application/json',
+            },
+        })
             .then(response => {
                 // Prepare data here (as shown in previous examples) and set it in state
                 let data = {

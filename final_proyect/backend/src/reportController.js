@@ -1,5 +1,5 @@
 
-const PriorityChart = async (req, res, db, jwt) => {
+const PriorityChart = async (request, response, db, jwt) => {
     const token = request.get("Authentication");
     const verifiedToken = await jwt.verify(token, "secretKey");
     const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
@@ -21,7 +21,7 @@ const PriorityChart = async (req, res, db, jwt) => {
         }
     }
     );
-    res.json(dataPriority);
+    response.json(dataPriority);
 }
 
 
