@@ -6,6 +6,9 @@ import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
 import LoginPage from './loginpage';
+
+import { i18nProvider } from './i18nProvider';
+
 import { MyAppBar } from './components/MyAppBar.js';
 import { UserList, UserCreate } from './Resources/UserList';
 import { ReportList } from './Resources/ReportList';
@@ -16,12 +19,14 @@ import UserIcon from "@mui/icons-material/Group";
 
 
 
+
 const MyLayout = (props) => <Layout {...props} appBar={MyAppBar} />;
 
 const App = () => {
   return (
 
-    <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }}>
+
+    <Admin dataProvider={dataProvider} authProvider={authProvider} layout={MyLayout} i18nProvider={i18nProvider} darkTheme={{ palette: { mode: 'dark' } }}>
 
 
       <Resource name="tickets" list={TicketList} create={TicketCreate} show={ShowGuesser} recordRepresentation="Coordinador" edit={EditGuesser} icon={PostIcon} />
