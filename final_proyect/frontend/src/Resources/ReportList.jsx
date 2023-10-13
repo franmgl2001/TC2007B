@@ -13,6 +13,11 @@ export const ReportList = () => {
     return (
         <div>
             <h2>My Resource</h2>
+            <select onChange={(e) => setClassification(e.target.value)}>
+                <option value="Categoría">Categoría</option>
+                <option value="Prioridad">Prioridad</option>
+                <option value="Status">Status</option>
+            </select>
             <GroupedClassroomBar dynamicValue={Classification} />
             <PriorityChart dynamicValue={Classification} />
         </div>
