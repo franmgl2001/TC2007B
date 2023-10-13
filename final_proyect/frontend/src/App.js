@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { Admin, Resource, CustomRoutes, Layout, ShowGuesser } from 'react-admin';
-import { TicketList, TicketCreate, TicketEdit} from './Resources/TicketList';
+import { TicketList, TicketCreate, TicketEdit } from './Resources/TicketList';
 import { dataProvider } from "./dataProvider";
 import Registrarse from "./registrarse";
 import authProvider from './authProvider';
@@ -24,19 +24,16 @@ const App = () => {
   return (
 
 
-    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }}>
+    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
 
 
       <Resource name="tickets" list={TicketList} create={TicketCreate} show={ShowGuesser} recordRepresentation="Coordinador" edit={TicketEdit} icon={PostIcon} />
       {permissions => permissions === 'Admin' && (
-        <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit}/>
+        <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
       )}
-      <Resource name="reports" list={ReportList} icon={BarChartOutlinedIcon}/>
+      <Resource name="reports" list={ReportList} icon={BarChartOutlinedIcon} />
       <CustomRoutes>
         <Route path="/registrarse" element={<Registrarse />} />
-      </CustomRoutes>
-      <CustomRoutes>
-        <Route path="/login" element={<LoginPage />} />
       </CustomRoutes>
     </Admin>
   );

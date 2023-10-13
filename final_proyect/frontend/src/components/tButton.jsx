@@ -1,3 +1,4 @@
+/*
 import { Button, useTranslate } from 'react-admin';
 
 const tButton = ({ doSave }) => {
@@ -9,4 +10,4 @@ const tButton = ({ doSave }) => {
     );
 };
 
-export default tButton;
+export default tButton;*/
