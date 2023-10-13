@@ -23,21 +23,7 @@ function LoginPage() {
 
     try {
       // Make an API call to authenticate the user
-      const response = await fetch("http://localhost:3011/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (response.ok) {
-
-          
-      } else {
-        // User authentication failed
-        setError('Invalid credentials. Please try again.');
-      }
+      login(requestBody);
     } catch (error) {
       console.error("Error authenticating user:", error);
       setError('An error occurred while logging in. Please try again later.');
@@ -45,11 +31,11 @@ function LoginPage() {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
       minHeight: '100vh',
       background: 'linear-gradient(90deg, #007514, #ffffff, #970000)',
     }}>
