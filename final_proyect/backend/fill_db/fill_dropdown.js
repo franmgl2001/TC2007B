@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
 
 async function connectDB() {
@@ -124,7 +125,6 @@ data = {
             "Puebla",
             "Querétaro",
         ]
-
 };
 
 
@@ -140,17 +140,38 @@ async function addDataToDB(db, data) {
     }
 }
 
+async function addAdminUser(db) {
+    const user = "admin";
+    const pass = "admin123";
+    const fName = "admin";
+    const email = "admin@tec.mx";
+    const permissions = "Admin";
+
+    bcrypt.genSalt(10, (error, salt) => {
+        bcrypt.hash(pass, salt, async (error, hash) => {
+            let usuarioAgregar = {
+                "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
+            };
+            data = await db.collection("users").insertOne(usuarioAgregar);
+        })
+    })
+
+
+}
 async function main() {
     try {
         let db = await connectDB(); // Wait for the database connection
         console.log("Connected to the database");
         const namedData = addNameToData(data);
         await addDataToDB(db, namedData);
+        await addAdminUser(db);
         console.log("Data inserted successfully");
     } catch (error) {
         console.error("Error:", error);
     }
+
+    // Stop server
+    process.exit();
 }
 
 main();
-

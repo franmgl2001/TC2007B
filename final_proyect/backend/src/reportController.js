@@ -1,11 +1,23 @@
+const validCollection = (collection) => {
+    const validCollections = [
+        "Categoría",
+        "Prioridad",
+        "Status",
+    ];
+    return validCollections.includes(collection);
+}
 
 const priorityChart = async (request, response, db, jwt) => {
     try {
+        const collection = request.params.collection;
+        if (!validCollection(collection)) {
+            response.sendStatus(401);
+        }
         const token = request.get("Authentication");
         const verifiedToken = await jwt.verify(token, "secretKey");
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
-        const collection = request.params.collection;
+
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
         }
@@ -33,11 +45,14 @@ const priorityChart = async (request, response, db, jwt) => {
 
 const classroomChart = async (request, response, db, jwt) => {
     try {
+        const collection = request.params.collection;
+        if (!validCollection(collection)) {
+            response.sendStatus(401);
+        }
         const token = request.get("Authentication");
         const verifiedToken = await jwt.verify(token, "secretKey");
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
-        const collection = request.params.collection;
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
         }

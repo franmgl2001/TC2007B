@@ -74,7 +74,7 @@ const PriorityChart = ({ dynamicValue }) => {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [dynamicValue]);
 
 
     return (
