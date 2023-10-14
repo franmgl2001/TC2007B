@@ -40,7 +40,7 @@ async function connectDB() {
 
 // Register and Login File (userController.js)
 app.post("/users", async (request, response) => {
-    registerUser(request, response, db, bcrypt);
+    registerUser(request, response, db, bcrypt, jwt);
 })
 
 app.get("/users", async (request, response) => {

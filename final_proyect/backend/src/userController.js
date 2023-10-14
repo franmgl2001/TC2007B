@@ -24,6 +24,23 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
     const email = request.body.email;
     const permissions = request.body.permissions;
 
+    // Check that jwt is valid and user is admin
+
+    try {
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let token_user = verifiedToken.user;
+        let admin_user = await db.collection("users").findOne({ "username": token_user });
+        if (admin_user.permissions != "Admin") {
+            response.sendStatus(401);
+            return;
+        }
+    }
+    catch {
+        response.sendStatus(401);
+        return;
+    }
+
     //
     if (!checkPasswordLength(pass)) {
         response.sendStatus(400);
@@ -41,6 +58,9 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
                     let usuarioAgregar = {
                         "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
                     };
+                    const count = await db.collection("users").countDocuments();
+                    const id = count + 1;
+                    usuarioAgregar["id"] = id;
                     data = await db.collection("users").insertOne(usuarioAgregar);
                     response.json(data);
                 })
