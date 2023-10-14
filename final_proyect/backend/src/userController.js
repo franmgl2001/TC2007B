@@ -1,5 +1,15 @@
 const { logger } = require("./logger");
 
+
+const validPermissions = (collection) => {
+    const validCollections = [
+        "Admin",
+        "Coordinador",
+        "Coordinador Nacional",
+        "Ejecutivo",
+    ];
+    return validCollections.includes(collection);
+}
 function checkPasswordLength(password) {
     if (password.length < 8) {
         return false;
@@ -7,15 +17,21 @@ function checkPasswordLength(password) {
     return true;
 }
 
-const registerUser = async (request, response, db, bcrypt) => {
+const registerUser = async (request, response, db, bcrypt, jwt) => {
     const user = request.body.username;
     const pass = request.body.password;
     const fName = request.body.fullName;
     const email = request.body.email;
     const permissions = request.body.permissions;
 
+    //
     if (!checkPasswordLength(pass)) {
         response.sendStatus(400);
+        return;
+    }
+    if (!validPermissions(permissions)) {
+        response.sendStatus(400);
+        return;
     }
     let data = await db.collection("users").findOne({ "username": user });
     if (data == null) {
@@ -26,7 +42,7 @@ const registerUser = async (request, response, db, bcrypt) => {
                         "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
                     };
                     data = await db.collection("users").insertOne(usuarioAgregar);
-                    response.sendStatus(201);
+                    response.json(data);
                 })
             })
         } catch {
@@ -66,6 +82,7 @@ const getAllUsers = async (request, response, db, jwt) => {
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {
             response.sendStatus(401);
+            return;
         }
         let data = await db.collection("users").find().project({ _id: 0 }).toArray();
         response.set('Access-Control-Expose-Headers', 'X-Total-Count')
@@ -84,6 +101,7 @@ const getUser = async (request, response, db, jwt) => {
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {
             response.sendStatus(401);
+            return;
         }
         let data = await db.collection("users").findOne({ "username": request.params.id });
         logger(user, "ver usuario", request.params.id, db)
@@ -102,6 +120,7 @@ const updateUser = async (request, response, db, jwt) => {
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {
             response.sendStatus(401);
+            return;
         }
         const UpdateObject = request.body;
         const filter = { "id": request.params.id };
@@ -109,6 +128,7 @@ const updateUser = async (request, response, db, jwt) => {
         // check that password is not on UpdateObject
         if (UpdateObject.password) {
             response.sendStatus(401);
+            return;
         }
         await db.collection("users").updateOne(filter, { $set: UpdateObject });
         let data = await db.collection("users").findOne(filter);
@@ -129,6 +149,7 @@ const deleteUser = async (request, response, db, jwt) => {
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {
             response.sendStatus(401);
+            return;
         }
         const filter = { "id": Number(request.params.id) };
         await db.collection("users").deleteOne(filter);
@@ -136,7 +157,6 @@ const deleteUser = async (request, response, db, jwt) => {
         response.json({ "status": "ok" });
     }
     catch {
-        console.log("error")
         response.sendStatus(401);
     }
 }

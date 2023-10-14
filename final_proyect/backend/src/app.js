@@ -38,13 +38,6 @@ async function connectDB() {
     return db;
 }
 
-// APIs
-app.post("/create/tickets", async (request, response) => {
-    let addValue = request.body;
-    db = await connectDB();
-    data = await db.collection('tickets').insertOne(addValue);
-    response.json({ "statusCode": 200 });
-})
 // Register and Login File (userController.js)
 app.post("/users", async (request, response) => {
     registerUser(request, response, db, bcrypt);
