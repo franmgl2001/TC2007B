@@ -33,7 +33,7 @@ const registerUser = async (request, response, db, bcrypt) => {
             response.sendStatus(401);
         }
     } else {
-        response.sendStatus(401)
+        response.sendStatus(400)
     }
 };
 
