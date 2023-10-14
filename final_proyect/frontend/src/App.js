@@ -1,9 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { Admin, Resource, CustomRoutes, Layout, ShowGuesser } from 'react-admin';
 import { TicketList, TicketCreate, TicketEdit } from './Resources/TicketList';
 import { dataProvider } from "./dataProvider";
-import Registrarse from "./registrarse";
 import authProvider from './authProvider';
 import LoginPage from './loginpage';
 import { i18nProvider } from './i18nProvider';
@@ -32,9 +30,6 @@ const App = () => {
         <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
       )}
       <Resource name="reports" list={ReportList} icon={BarChartOutlinedIcon} />
-      <CustomRoutes>
-        <Route path="/registrarse" element={<Registrarse />} />
-      </CustomRoutes>
     </Admin>
   );
 };
