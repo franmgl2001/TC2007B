@@ -8,7 +8,7 @@ import { EditButton } from 'react-admin';
 export const TicketList = () => {
     const { permissions } = usePermissions();
     return (
-        <List>
+        <List >
             <Datagrid rowClick="show">
                 {permissions === 'Admin' &&
                     <TextField source="user" label="Coordinador" />}
@@ -16,9 +16,9 @@ export const TicketList = () => {
                 <TextField source="SubCategoría" />
                 <TextField source="Prioridad" />
                 <TextField source="Aula" />
-                <TextField source="Proceso" />
                 <TextField source="Status" />
                 <TextField source="Fecha de Incidente" />
+                <TextField source="Fecha de Resolución" />
                 <EditButton />
             </Datagrid>
         </List>
@@ -42,6 +42,7 @@ export const TicketEdit = () => {
                     <TextInput source="descripcion" multiline rows={5} sx={{width:560}}/>
                     <TextInput source="comentario" multiline rows={5}  sx={{ width: 560}}/>
                 </div>
+                <DateInput source="Fecha de Resolución" />
             </SimpleForm>
         </Edit>
     );
@@ -59,11 +60,12 @@ export const TicketCreate = () => {
                     <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
                     <DropDown collection={"Prioridad"} setValue={null} Cascade={false} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
                     <DropDown collection={"Status"} setValue={null} Cascade={false} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
-                    <DateInput source="Fecha de Incidente" />
-                </div>
-                <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
                     <DropDown collection="Aula" sx={{ width: '100%', marginBottom: isSmallScreen ? '10px' : '0' }} />
-                    <TextInput source="NumeroOficio" sx={{ width: '100%', marginBottom: isSmallScreen ? '10px' : '0' }} />
+                </div>
+                <div style={{ width: '100%', gap: 50, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
+                    <DateInput source="Fecha de Incidente" />
+                    <DateInput source="Fecha de Resolución" />
+                    <TextInput source="NumeroOficio" sx={{ width: '70%', marginBottom: isSmallScreen ? '10px' : '0' }} />
                 </div>
 
                 <TextInput source="Proceso" multiline rows={1} sx={{ width: '100%', marginBottom: '10px', marginRight: '1em', '& .MuiFilledInput-input': { paddingTop: '10px' } }} />
