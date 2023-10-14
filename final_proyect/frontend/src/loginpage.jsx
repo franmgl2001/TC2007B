@@ -37,12 +37,10 @@ function LoginPage() {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      background: 'linear-gradient(90deg, #007514, #ffffff, #970000)',
+      backgroundImage: 'url("./whitePM.jpg")'
     }}>
       <div className="login-container">
-        {/* Logo */}
         <div className="logo">
-          <img src="./fund.png" style={{ width: '100%', height: 'auto' }} />
         </div>
         <div className="login-box">
           <h2 style={{ textAlign: 'center' }}>Login</h2>
@@ -57,6 +55,7 @@ function LoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="login-input"
+                placeholder="Username"
               />
             </div>
             {/* Password input */}
@@ -68,6 +67,7 @@ function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="login-input"
+                placeholder="Password"
               />
             </div>
             {/* Submit button */}
