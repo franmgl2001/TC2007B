@@ -17,15 +17,7 @@ const IncidentLineChart = () => {
                 text: 'Resumen de Aulas',
             },
         },
-        responsive: true,
-        scales: {
-            x: {
-                stacked: true,
-            },
-            y: {
-                stacked: true,
-            },
-        },
+        responsive: true
     };
 
     useEffect(() => {
@@ -47,12 +39,12 @@ const IncidentLineChart = () => {
                 ];
 
                 // Data for the first line
+
                 console.log(response.data.dataInc);
                 console.log(response.data.dataRes);
-
-
                 // Data for the first line
                 const data1 = {
+                    id: '1',
                     label: 'Issued Tickets',
                     data: response.data.dataInc,
                     borderColor: colors[0],
@@ -61,6 +53,7 @@ const IncidentLineChart = () => {
 
                 // Data for the second line
                 const data2 = {
+                    id: '2',
                     label: 'Resolved Tickets',
                     data: response.data.dataRes,
                     borderColor: colors[1],
