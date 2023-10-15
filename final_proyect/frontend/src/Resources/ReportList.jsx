@@ -1,5 +1,6 @@
 import PriorityChart from '../components/PriorityChart';
 import GroupedClassroomBar from '../components/GroupedClassroomBar';
+import IncidentLineChart from '../components/IncidentLineChart';
 import { useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
@@ -18,6 +19,7 @@ export const ReportList = () => {
                 <option value="Prioridad">Prioridad</option>
                 <option value="Status">Status</option>
             </select>
+            <IncidentLineChart />
             <GroupedClassroomBar dynamicValue={Classification} />
             <PriorityChart dynamicValue={Classification} />
         </div>

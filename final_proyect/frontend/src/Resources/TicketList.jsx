@@ -12,7 +12,7 @@ export const TicketList = () => {
             <Datagrid rowClick="show">
                 {permissions === 'Admin' &&
                     <TextField source="user" label="Coordinador" />}
-                <TextField source="Categoría"/>
+                <TextField source="Categoría" />
                 <TextField source="SubCategoría" />
                 <TextField source="Prioridad" />
                 <TextField source="Aula" />
@@ -28,19 +28,19 @@ export const TicketList = () => {
 export const TicketEdit = () => {
     const [selectedClasificacion, setSelectedClasificacion] = useState('SubCategoria');
 
-    return(
+    return (
         <Edit>
             <SimpleForm>
-                <div style={{gap: 80, display:'flex'}}>
+                <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="id" disabled />
                     <TextInput source="coordinador" disabled />
                     <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} />
-                    <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion}/>
+                    <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} />
                     <DropDown collection={"Status"} setValue={null} Cascade={false} />
                 </div>
-                <div style={{gap: 20, display:'flex'}}>
-                    <TextInput source="descripcion" multiline rows={5} sx={{width:560}}/>
-                    <TextInput source="comentario" multiline rows={5}  sx={{ width: 560}}/>
+                <div style={{ gap: 20, display: 'flex' }}>
+                    <TextInput source="descripcion" multiline rows={5} sx={{ width: 560 }} />
+                    <TextInput source="comentario" multiline rows={5} sx={{ width: 560 }} />
                 </div>
                 <DateInput source="Fecha de Resolución" />
             </SimpleForm>

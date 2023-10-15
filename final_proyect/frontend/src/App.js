@@ -22,7 +22,7 @@ const App = () => {
   return (
 
 
-    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layout={MyLayout} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
+    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layoutpm s={MyLayout} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
 
 
       <Resource name="tickets" list={TicketList} create={TicketCreate} show={ShowGuesser} recordRepresentation="Coordinador" edit={TicketEdit} icon={PostIcon} />

@@ -150,7 +150,7 @@ const updateUser = async (request, response, db, bcrypt, jwt) => {
     salt = bcrypt.genSalt(numSaltRounds)
 
     let token = request.get("Authentication");
-    console.log(token)
+
     let verifiedToken = await jwt.verify(token, "secretKey");
 
     let user = verifiedToken.user;
