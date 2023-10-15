@@ -47,23 +47,29 @@ const IncidentLineChart = () => {
                 ];
 
                 // Data for the first line
+                console.log(response.data.dataInc);
+                console.log(response.data.dataRes);
+
+
+                // Data for the first line
                 const data1 = {
-                    label: 'label_inc',
-                    data: [1, 22, 3, 44, 35, 6, 7],
+                    label: 'Issued Tickets',
+                    data: response.data.dataInc,
                     borderColor: colors[0],
                     backgroundColor: colors[0],
                 };
 
                 // Data for the second line
                 const data2 = {
-                    label: 'label_res',
-                    data: [1, 2, 3, 4, 5, 6, 7],
+                    label: 'Resolved Tickets',
+                    data: response.data.dataRes,
                     borderColor: colors[1],
                     backgroundColor: colors[1],
                 };
 
+
                 setChartData({
-                    labels: response.data.label_inc, // You can use the common labels here
+                    labels: response.data.labels, // You can use the common labels here
                     datasets: [data1, data2], // Combine both datasets
                 });
             })
