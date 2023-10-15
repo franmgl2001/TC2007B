@@ -6,7 +6,7 @@ const validCollection = (collection) => {
     ];
     return validCollections.includes(collection);
 }
-
+// Priority Chart
 const priorityChart = async (request, response, db, jwt) => {
     try {
         const collection = request.params.collection;
@@ -25,7 +25,6 @@ const priorityChart = async (request, response, db, jwt) => {
         const collectionData = await db.collection(collection).find().toArray();
         let dataPriority = {}
 
-
         collectionData.forEach(element => {
             dataPriority[element["name"]] = 0
         });
@@ -43,6 +42,7 @@ const priorityChart = async (request, response, db, jwt) => {
     }
 }
 
+// Classroom Chart
 const classroomChart = async (request, response, db, jwt) => {
     try {
         const collection = request.params.collection;
@@ -98,6 +98,33 @@ const orderClassroomData = (data, collection, collectionData) => {
 
     return dataClassroom
 }
+
+
+
+const lineChart = async (request, response, db, jwt) => {
+    try {
+        const collection = request.params.collection;
+        if (!validCollection(collection)) {
+            response.sendStatus(401);
+        }
+        const token = request.get("Authentication");
+        const verifiedToken = await jwt.verify(token, "secretKey");
+        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+        let parametersFind = {}
+        if (authData.permissions == "Coordinador") {
+            parametersFind["user"] = verifiedToken.user;
+        }
+
+        // FIll dataClassroom
+        const data = await db.collection('tickets').find(parametersFind).toArray();
+        const collectionData = await db.collection(collection).find().toArray();
+        let dataLineChart = {}
+    } catch {
+        response.sendStatus(401);
+    }
+
+}
+
 
 module.exports = {
     priorityChart,

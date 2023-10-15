@@ -56,7 +56,7 @@ app.get("/users/:id", async (request, response) => {
 })
 
 app.put("/users/:id", async (request, response) => {
-    updateUser(request, response, db, jwt);
+    updateUser(request, response, db, bcrypt, jwt);
 });
 
 app.delete("/users/:id", async (request, response) => {

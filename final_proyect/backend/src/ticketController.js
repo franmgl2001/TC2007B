@@ -1,6 +1,18 @@
 const { logger } = require("./logger");
 
+async function get_id(db, collection) {
 
+    let res = await db.collection(collection)
+        .find()
+        .sort({ _id: -1 }) // Sort in descending order based on _id
+        .limit(1) // Limit the result to 1 document
+        .toArray()
+
+    if (res.length == 0) {
+        return 1;
+    }
+    return res[0].id + 1;
+}
 
 //create
 const createTicket = async (request, response, db, jwt) => {
@@ -9,8 +21,8 @@ const createTicket = async (request, response, db, jwt) => {
         let verifiedToken = await jwt.verify(token, "secretKey");
         let addValue = request.body
         const count = await db.collection("tickets").countDocuments();
-        let id = count + 1;
-        addValue["id"] = id;
+
+        addValue["id"] = await get_id(db, "tickets");
         addValue["user"] = verifiedToken.user;
         data = await db.collection('tickets').insertOne(addValue);
         response.json(data);
@@ -132,3 +144,5 @@ module.exports = {
     deleteTicket,
     updateTicket
 };
+
+

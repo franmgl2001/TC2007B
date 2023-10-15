@@ -58,9 +58,7 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
                     let usuarioAgregar = {
                         "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
                     };
-                    const count = await db.collection("users").countDocuments();
-                    const id = count + 1;
-                    usuarioAgregar["id"] = id;
+                    usuarioAgregar["id"] = await get_id(db, "users");
                     data = await db.collection("users").insertOne(usuarioAgregar);
                     response.json(data);
                 })
@@ -72,6 +70,21 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
         response.sendStatus(400)
     }
 };
+
+async function get_id(db, collection) {
+
+    let res = await db.collection(collection)
+        .find()
+        .sort({ _id: -1 }) // Sort in descending order based on _id
+        .limit(1) // Limit the result to 1 document
+        .toArray()
+
+
+    if (res.length == 0) {
+        return 1;
+    }
+    return res[0].id + 1;
+}
 
 
 const loginUser = async (request, response, db, bcrypt, jwt, log) => {
@@ -132,34 +145,44 @@ const getUser = async (request, response, db, jwt) => {
     }
 }
 
-const updateUser = async (request, response, db, jwt) => {
-    try {
-        let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let user = verifiedToken.user;
-        let admin_user = await db.collection("users").findOne({ "username": user });
-        if (admin_user.permissions != "Admin") {
-            response.sendStatus(401);
-            return;
-        }
-        const UpdateObject = request.body;
-        const filter = { "id": request.params.id };
+const updateUser = async (request, response, db, bcrypt, jwt) => {
+    const numSaltRounds = 10;
+    salt = bcrypt.genSalt(numSaltRounds)
 
-        // check that password is not on UpdateObject
-        if (UpdateObject.password) {
-            response.sendStatus(401);
-            return;
-        }
-        await db.collection("users").updateOne(filter, { $set: UpdateObject });
-        let data = await db.collection("users").findOne(filter);
-        delete data["_id"]
-        logger(user, "actualizar usuario", request.params.id, db)
-        response.json(data);
-    }
-    catch {
+    let token = request.get("Authentication");
+    console.log(token)
+    let verifiedToken = await jwt.verify(token, "secretKey");
+
+    let user = verifiedToken.user;
+
+    let admin_user = await db.collection("users").findOne({ "username": user });
+    if (admin_user.permissions != "Admin") {
         response.sendStatus(401);
+        return;
     }
+    const UpdateObject = request.body;
+    const filter = { "id": Number(request.params.id) };
+
+    // check that password is not on UpdateObject
+    if (UpdateObject.password) {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(myPlaintextPassword, salt);
+    }
+    if (UpdateObject.username) {
+        delete UpdateObject.username;
+    }
+    console.log(UpdateObject)
+
+
+    await db.collection("users").updateOne(filter, { $set: UpdateObject });
+    console.log(filter)
+    let data = await db.collection("users").findOne(filter);
+    delete data["_id"]
+    logger(user, "actualizar usuario", request.params.id, db)
+    response.json(data);
 }
+
+
 
 const deleteUser = async (request, response, db, jwt) => {
     try {
