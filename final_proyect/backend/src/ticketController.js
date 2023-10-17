@@ -1,24 +1,17 @@
 const { logger } = require("./logger");
-
-async function get_id(db, collection) {
-
-    let res = await db.collection(collection)
-        .find()
-        .sort({ _id: -1 }) // Sort in descending order based on _id
-        .limit(1) // Limit the result to 1 document
-        .toArray()
-
-    if (res.length == 0) {
-        return 1;
-    }
-    return res[0].id + 1;
-}
+const { get_id } = require("./misc");
 
 //create
 const createTicket = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
+        // Executive can't create tickets
+        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+        if (authData.permissions == "Ejecutivo") {
+            response.sendStatus(401);
+            return;
+        }
         let addValue = request.body
         const count = await db.collection("tickets").countDocuments();
 
@@ -33,6 +26,7 @@ const createTicket = async (request, response, db, jwt) => {
 
 const getAllTickets = async (request, response, db, jwt) => {
     try {
+        console.log(request.query)
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
@@ -77,10 +71,12 @@ const deleteTicket = async (request, response, db, jwt) => {
         const token = request.get("Authentication");
         const verifiedToken = await jwt.verify(token, "secretKey");
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
-
         let parametersFind = { "id": Number(request.params.id) }
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
+        } else if (authData.permissions == "Ejecutivo") {
+            response.sendStatus(401);
+            return;
         }
         let data = await db.collection('tickets').deleteOne(parametersFind);
         logger(verifiedToken.user, "eliminar objeto", request.params.id)
@@ -118,7 +114,11 @@ const updateTicket = async (request, response, db, jwt) => {
         let updateValue = request.body;
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
-            delete updateTicket["user"]
+        }
+        else if
+            (authData.permissions == "Ejecutivo") {
+            response.sendStatus(401);
+            return;
         }
         parametersFind["id"] = Number(request.params.id)
 

@@ -39,7 +39,6 @@ const PriorityChart = ({ dynamicValue }) => {
         })
             .then(response => {
                 // Prepare data here (as shown in previous examples) and set it in state
-                console.log(dynamicValue);
                 let data = {
                     labels: [],
                     datasets: [
@@ -64,7 +63,6 @@ const PriorityChart = ({ dynamicValue }) => {
                         },
                     ]
                 };
-                console.log(response.data);
                 // Set data labels to report data keys
                 data.labels = Object.keys(response.data);
                 // Set data values to report data values
