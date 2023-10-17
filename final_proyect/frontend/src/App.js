@@ -1,5 +1,5 @@
 import React from 'react';
-import { Admin, Resource, CustomRoutes, Layout, ShowGuesser } from 'react-admin';
+import { Admin, Resource, Layout, } from 'react-admin';
 import { TicketList, TicketCreate, TicketEdit, TicketShow } from './Resources/TicketList';
 import { dataProvider } from "./dataProvider";
 import authProvider from './authProvider';
@@ -21,15 +21,17 @@ const MyLayout = (props) => <Layout {...props} appBar={MyAppBar} />;
 const App = () => {
   return (
 
-
     <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layoutpm s={MyLayout} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
+      {permissions => (
+        <>
+          <Resource name="tickets" list={TicketList} create={permissions !== 'Ejecutivo' ? TicketCreate : null} show={TicketShow} recordRepresentation="Coordinador" edit={permissions !== 'Ejecutivo' ? TicketEdit : null} icon={PostIcon} />
+          {permissions === 'Admin' &&
+            <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
+          }
+          <Resource name="reports" list={ReportList} icon={BarChartOutlinedIcon} />
 
-
-      <Resource name="tickets" list={TicketList} create={TicketCreate} show={TicketShow} recordRepresentation="Coordinador" edit={TicketEdit} icon={PostIcon} />
-      {permissions => permissions === 'Admin' && (
-        <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
+        </>
       )}
-      <Resource name="reports" list={ReportList} icon={BarChartOutlinedIcon} />
     </Admin>
   );
 };
