@@ -26,7 +26,6 @@ const createTicket = async (request, response, db, jwt) => {
 
 const getAllTickets = async (request, response, db, jwt) => {
     try {
-        console.log(request.query)
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let authData = await db.collection("users").findOne({ "username": verifiedToken.user })

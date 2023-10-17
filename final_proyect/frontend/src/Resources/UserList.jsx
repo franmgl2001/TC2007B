@@ -1,4 +1,4 @@
-import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput } from 'react-admin';
+import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit } from 'react-admin';
 
 
 export const UserList = () => (
@@ -38,15 +38,21 @@ export const UserCreate = () => {
 
 export const UserEdit = () => {
     return (
-        <Create>
+        <Edit>
             <SimpleForm>
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" disabled />
                     <PasswordInput source="password" />
                     <TextInput source="fullName" />
                     <TextInput source="email" />
+                    <SelectInput source="permissions" choices={[
+                        { id: 'Admin', name: "Admin" },
+                        { id: 'Coordinador', name: 'Coordinador' },
+                        { id: 'Coordinador Nacional', name: 'Coordinador Nacional' },
+                        { id: 'Ejecutivo', name: 'Ejecutivo' },
+                    ]} />
                 </div>
             </SimpleForm>
-        </Create>
+        </Edit>
     );
 };

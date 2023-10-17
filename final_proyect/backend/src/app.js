@@ -56,6 +56,7 @@ app.get("/users/:id", async (request, response) => {
 })
 
 app.put("/users/:id", async (request, response) => {
+    console.log("put")
     updateUser(request, response, db, bcrypt, jwt);
 });
 
