@@ -103,9 +103,10 @@ const getAllUsers = async (request, response, db, jwt) => {
             response.sendStatus(401);
             return;
         }
-        let data = await db.collection("users").find().project({ _id: 0 }).toArray();
+        let data = await db.collection("users").find().project({ _id: 0, password: 0 }).toArray();
         response.set('Access-Control-Expose-Headers', 'X-Total-Count')
         response.set('X-Total-Count', data.length)
+        data.password = undefined;
 
         response.json(data);
     } catch {
@@ -117,13 +118,20 @@ const getUser = async (request, response, db, jwt) => {
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let user = verifiedToken.user;
-        let admin_user = await db.collection("users").findOne({ "username": user });
+        let admin_user = await db.collection("users").findOne(
+            { "username": user }
+        );
         if (admin_user.permissions != "Admin") {
             response.sendStatus(401);
             return;
         }
-        let data = await db.collection("users").findOne({ "username": request.params.id });
+        let data = await db.collection("users").findOne({ "id": Number(request.params.id) });
         logger(user, "ver usuario", request.params.id, db)
+
+        delete data["_id"]
+        delete data["password"]
+
+        // Drop password
         response.json(data);
     }
     catch {
@@ -132,40 +140,61 @@ const getUser = async (request, response, db, jwt) => {
 }
 
 const updateUser = async (request, response, db, bcrypt, jwt) => {
-    const numSaltRounds = 10;
-    salt = bcrypt.genSalt(numSaltRounds)
-    const pass = request.body.password;
-    console.log(pass)
-
-
-    const UpdateObject = request.body;
-    const filter = { "id": Number(request.params.id) };
-
-    // check that password is not on UpdateObject
-    if (UpdateObject.password) {
-
-        try {
-            bcrypt.genSalt(10, (error, salt) => {
-                bcrypt.hash(pass, salt, async (error, hash) => {
-                    UpdateObject.password = hash;
-                    console.log(hash)
-                    await db.collection("users").updateOne(filter, { $set: UpdateObject });
-                    response.json(data);
-                })
-            })
-
-        } catch {
+    try {
+        let token = request.get("Authentication");
+        let verifiedToken = await jwt.verify(token, "secretKey");
+        let user = verifiedToken.user;
+        let admin_user = await db.collection("users").findOne({ "username": user });
+        if (admin_user.permissions != "Admin") {
             response.sendStatus(401);
+            return;
         }
-    }
+        const numSaltRounds = 10;
+        salt = bcrypt.genSalt(numSaltRounds)
+        let data = {};
 
-    else {
-        await db.collection("users").updateOne(filter, { $set: UpdateObject });
+
+        const UpdateObject = request.body;
+        const filter = { "id": Number(request.params.id) };
+
+        // Convert pass into string
+        const pass = String(UpdateObject.password);
+
+        // check that password is not on UpdateObject
+        if (UpdateObject.password) {
+            if (!checkPasswordLength(pass)) {
+                response.sendStatus(400);
+                return;
+            }
+
+            try {
+                bcrypt.genSalt(10, (error, salt) => {
+                    bcrypt.hash(pass, salt, async (error, hash) => {
+                        UpdateObject.password = hash;
+                        data = await db.collection("users").updateOne(filter, { $set: UpdateObject });
+                        // check pass type
+                    })
+                })
+
+            } catch {
+                response.sendStatus(401);
+                return;
+            }
+        }
+
+        else {
+            await db.collection("users").updateOne(filter, { $set: UpdateObject });
+        }
+        data = await db.collection("users").findOne(filter);
+        delete data["_id"]
+        delete data["password"]
+        logger(user, "actualizar usuario", request.params.id, db)
+
+        response.json(data);
     }
-    let data = await db.collection("users").findOne(filter);
-    delete data["_id"]
-    //logger(user, "actualizar usuario", request.params.id, db)
-    response.json(data);
+    catch {
+        response.sendStatus(401);
+    }
 }
 
 

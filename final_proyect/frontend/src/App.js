@@ -21,10 +21,10 @@ const MyLayout = (props) => <Layout {...props} appBar={MyAppBar} />;
 const App = () => {
   return (
 
-    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layoutpm s={MyLayout} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
+    <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
       {permissions => (
         <>
-          <Resource name="tickets" list={TicketList} create={permissions !== 'Ejecutivo' ? TicketCreate : null} show={TicketShow} recordRepresentation="Coordinador" edit={permissions !== 'Ejecutivo' ? TicketEdit : null} icon={PostIcon} />
+          <Resource name="tickets" list={TicketList} create={permissions !== 'Ejecutivo' ? TicketCreate : null} show={TicketShow} recordRepresentation="Coordinador" edit={permissions !== 'Ejecutivo' ? TicketEdit : null} icon={PostIcon} options={{ label: "Tickets" }} />
           {permissions === 'Admin' &&
             <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
           }
