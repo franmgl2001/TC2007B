@@ -1,5 +1,5 @@
 const { logger } = require("./logger");
-
+const { get_id } = require("./misc");
 
 const validPermissions = (collection) => {
     const validCollections = [
@@ -71,20 +71,7 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
     }
 };
 
-async function get_id(db, collection) {
 
-    let res = await db.collection(collection)
-        .find()
-        .sort({ _id: -1 }) // Sort in descending order based on _id
-        .limit(1) // Limit the result to 1 document
-        .toArray()
-
-
-    if (res.length == 0) {
-        return 1;
-    }
-    return res[0].id + 1;
-}
 
 
 const loginUser = async (request, response, db, bcrypt, jwt, log) => {

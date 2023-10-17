@@ -1,6 +1,6 @@
 import React from 'react';
 import { Admin, Resource, CustomRoutes, Layout, ShowGuesser } from 'react-admin';
-import { TicketList, TicketCreate, TicketEdit } from './Resources/TicketList';
+import { TicketList, TicketCreate, TicketEdit, TicketShow } from './Resources/TicketList';
 import { dataProvider } from "./dataProvider";
 import authProvider from './authProvider';
 import LoginPage from './loginpage';
@@ -25,7 +25,7 @@ const App = () => {
     <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} layoutpm s={MyLayout} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
 
 
-      <Resource name="tickets" list={TicketList} create={TicketCreate} show={ShowGuesser} recordRepresentation="Coordinador" edit={TicketEdit} icon={PostIcon} />
+      <Resource name="tickets" list={TicketList} create={TicketCreate} show={TicketShow} recordRepresentation="Coordinador" edit={TicketEdit} icon={PostIcon} />
       {permissions => permissions === 'Admin' && (
         <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
       )}
