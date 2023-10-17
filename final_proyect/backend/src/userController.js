@@ -41,7 +41,6 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
         return;
     }
 
-    //
     if (!checkPasswordLength(pass)) {
         response.sendStatus(400);
         return;
@@ -135,37 +134,37 @@ const getUser = async (request, response, db, jwt) => {
 const updateUser = async (request, response, db, bcrypt, jwt) => {
     const numSaltRounds = 10;
     salt = bcrypt.genSalt(numSaltRounds)
+    const pass = request.body.password;
+    console.log(pass)
 
-    let token = request.get("Authentication");
 
-    let verifiedToken = await jwt.verify(token, "secretKey");
-
-    let user = verifiedToken.user;
-
-    let admin_user = await db.collection("users").findOne({ "username": user });
-    if (admin_user.permissions != "Admin") {
-        response.sendStatus(401);
-        return;
-    }
     const UpdateObject = request.body;
     const filter = { "id": Number(request.params.id) };
 
     // check that password is not on UpdateObject
     if (UpdateObject.password) {
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(myPlaintextPassword, salt);
-    }
-    if (UpdateObject.username) {
-        delete UpdateObject.username;
-    }
-    console.log(UpdateObject)
 
+        try {
+            bcrypt.genSalt(10, (error, salt) => {
+                bcrypt.hash(pass, salt, async (error, hash) => {
+                    UpdateObject.password = hash;
+                    console.log(hash)
+                    await db.collection("users").updateOne(filter, { $set: UpdateObject });
+                    response.json(data);
+                })
+            })
 
-    await db.collection("users").updateOne(filter, { $set: UpdateObject });
-    console.log(filter)
+        } catch {
+            response.sendStatus(401);
+        }
+    }
+
+    else {
+        await db.collection("users").updateOne(filter, { $set: UpdateObject });
+    }
     let data = await db.collection("users").findOne(filter);
     delete data["_id"]
-    logger(user, "actualizar usuario", request.params.id, db)
+    //logger(user, "actualizar usuario", request.params.id, db)
     response.json(data);
 }
 

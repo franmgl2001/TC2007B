@@ -17,7 +17,7 @@ const postFilters = [
 export const TicketList = () => {
     const { permissions } = usePermissions();
     return (
-        <List filters={postFilters}>
+        <List filters={postFilters} >
             <Datagrid rowClick="show">
                 {permissions === 'Admin' &&
                     <TextField source="user" label="Coordinador" />}
