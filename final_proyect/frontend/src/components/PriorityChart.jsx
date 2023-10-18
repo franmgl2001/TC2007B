@@ -28,7 +28,7 @@ const PriorityChart = ({ dynamicValue }) => {
     });
 
     const authToken = localStorage.getItem('auth');
-    const apiUrl = `http://localhost:3011/report/pie/${dynamicValue}`;
+    const apiUrl = `https://localhost:3011/report/pie/${dynamicValue}`;
     useEffect(() => {
         // Make an API request using Axios
         axios.get(apiUrl, {
@@ -48,13 +48,13 @@ const PriorityChart = ({ dynamicValue }) => {
                             backgroundColor: [
                                 'rgba(255, 152, 121, 0.7)',
                                 'rgba(93, 178, 173, 0.7)',
-                                'rgba(166, 192, 128, 0.7)', 
-                                'rgba(221, 119, 128, 0.7)', 
-                                'rgba(255, 116, 127, 0.7)', 
-                                'rgba(255, 191, 104, 0.7)', 
-                                'rgba(214, 202, 117, 0.7)', 
-                                'rgba(170, 142, 198, 15)', 
-                                'rgba(107, 144, 163, 0.7)' 
+                                'rgba(166, 192, 128, 0.7)',
+                                'rgba(221, 119, 128, 0.7)',
+                                'rgba(255, 116, 127, 0.7)',
+                                'rgba(255, 191, 104, 0.7)',
+                                'rgba(214, 202, 117, 0.7)',
+                                'rgba(170, 142, 198, 15)',
+                                'rgba(107, 144, 163, 0.7)'
 
 
                             ],
@@ -88,13 +88,13 @@ const PriorityChart = ({ dynamicValue }) => {
 
 
     return (
-        <div style={{width:'40%', margin: 'auto'}}>
+        <div style={{ width: '40%', margin: 'auto' }}>
             <Doughnut
                 data={chartData}
                 options={{
                     radius: '100%',
                     maintainAspectRatio: true,
-                    responsive: true, 
+                    responsive: true,
                 }}
             />
         </div>

@@ -4,10 +4,10 @@ import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput
 export const UserList = () => (
     < List >
         <Datagrid >
-            <TextField source="username" />
-            <TextField source="fullName" />
+            <TextField source="username" label="Usuario" />
+            <TextField source="fullName" label="Nombre" />
             <TextField source="email" />
-            <TextField source="permissions" />
+            <TextField source="permissions" label="Rol" />
             <EditButton />
         </Datagrid>
     </List >
@@ -19,16 +19,16 @@ export const UserCreate = () => {
         <Create>
             <SimpleForm >
                 <div style={{ gap: 80, display: 'flex' }}>
-                    <TextInput source="username" />
-                    <PasswordInput source="password" />
-                    <TextInput source="fullName" />
-                    <TextInput source="email" />
+                    <TextInput source="username" label="Usuario" />
+                    <PasswordInput source="password" label="Contraseña" />
+                    <TextInput source="fullName" label="Nombre Completo" />
+                    <TextInput source="email" label="Email" />
                     <SelectInput source="permissions" choices={[
                         { id: 'Admin', name: "Admin" },
                         { id: 'Coordinador', name: 'Coordinador' },
                         { id: 'Coordinador Nacional', name: 'Coordinador Nacional' },
                         { id: 'Ejecutivo', name: 'Ejecutivo' },
-                    ]} />
+                    ]} label="Rol" />
 
                 </div>
             </SimpleForm>
@@ -41,16 +41,16 @@ export const UserEdit = () => {
         <Edit>
             <SimpleForm>
                 <div style={{ gap: 80, display: 'flex' }}>
-                    <TextInput source="username" disabled />
-                    <PasswordInput source="password" />
-                    <TextInput source="fullName" />
-                    <TextInput source="email" />
+                    <TextInput source="username" label="Usuario" disabled />
+                    <PasswordInput source="password" label="Contraseña" />
+                    <TextInput source="fullName" label="Nombre Completo" />
+                    <TextInput source="email" label="Email" />
                     <SelectInput source="permissions" choices={[
                         { id: 'Admin', name: "Admin" },
                         { id: 'Coordinador', name: 'Coordinador' },
                         { id: 'Coordinador Nacional', name: 'Coordinador Nacional' },
                         { id: 'Ejecutivo', name: 'Ejecutivo' },
-                    ]} />
+                    ]} label="Rol" />
                 </div>
             </SimpleForm>
         </Edit>

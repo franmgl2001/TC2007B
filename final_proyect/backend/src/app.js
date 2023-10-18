@@ -39,11 +39,11 @@ async function connectDB() {
 }
 
 // Register and Login File (userController.js)
-app.post("/users", async (request, response) => {
+app.post("/usuarios", async (request, response) => {
     registerUser(request, response, db, bcrypt, jwt);
 })
 
-app.get("/users", async (request, response) => {
+app.get("/usuarios", async (request, response) => {
     getAllUsers(request, response, db, jwt);
 })
 
@@ -51,16 +51,16 @@ app.post("/login", async (request, response) => {
     loginUser(request, response, db, bcrypt, jwt);
 })
 
-app.get("/users/:id", async (request, response) => {
+app.get("/usuarios/:id", async (request, response) => {
     getUser(request, response, db, jwt);
 })
 
-app.put("/users/:id", async (request, response) => {
+app.put("/usuarios/:id", async (request, response) => {
     console.log("put")
     updateUser(request, response, db, bcrypt, jwt);
 });
 
-app.delete("/users/:id", async (request, response) => {
+app.delete("/usuarios/:id", async (request, response) => {
     deleteUser(request, response, db, jwt);
 });
 
