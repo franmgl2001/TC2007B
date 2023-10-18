@@ -3,6 +3,8 @@ import Button from '@mui/material/Button';
 import React, { useState } from 'react';
 import { useLogin, useNotify } from "react-admin";
 
+
+
 function LoginPage() {
   // State to store user inputs
   const [username, setUsername] = useState('');
@@ -21,12 +23,19 @@ function LoginPage() {
       password: password,
     };
 
-    try {
-      // Make an API call to authenticate the user
-      login(requestBody);
-    } catch (error) {
-      notify('Invalid username or password')
-    }
+
+
+
+    // Make an API call to authenticate the user
+    login(requestBody).then(() => {
+      console.log("Login successful");
+      // Handle successful login if needed
+    })
+      .catch(error => {
+        // Handle authentication error and notify the user
+        notify('Invalid username or password');
+      });
+
   };
 
   return (

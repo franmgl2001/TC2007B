@@ -1,4 +1,5 @@
 import decodeJwt from 'jwt-decode';
+import { } from "react-admin";
 
 const authProvider = {
     login: async ({ username, password }) => {
@@ -10,7 +11,7 @@ const authProvider = {
         try {
             const response = await fetch(request);
             if (response.status < 200 || response.status >= 300) {
-                throw new Error(response.statusText);
+                return Promise.reject();
             }
             const auth = await response.json();
             const decodedToken = decodeJwt(auth.token);
@@ -19,7 +20,7 @@ const authProvider = {
             localStorage.setItem('permissions', decodedToken.permissions);
             return Promise.resolve()
         } catch {
-            throw new Error('Error en usuario o password');
+            return Promise.reject();
         }
     },
     logout: () => {
