@@ -15,7 +15,7 @@ export const TicketList = props => {
     const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
     const { permissions } = usePermissions();
     return (
-        <List filters={postFilters} {...props} >
+        <List filters={postFilters} {...props} rowClick="show">
             {isSmall ? (
                 < SimpleList
                 primaryText={(record) => record.Categoría}
@@ -42,6 +42,7 @@ export const TicketList = props => {
 export const TicketEdit = () => {
     const [selectedClasificacion, setSelectedClasificacion] = useState("SubCategoría");
     const { permissions } = usePermissions();
+    const isSmallScreen = useMediaQuery('(max-width: 1300px)');
 
 
     return (
@@ -49,12 +50,12 @@ export const TicketEdit = () => {
             {permissions !== 'Ejecutivo' &&
                 <Edit >
                     <SimpleForm>
-                        <div style={{ gap: 80, display: 'flex' }}>
-                            <TextInput source="user" disabled />
-                            <TextInput source="NumeroOficio" />
-                            <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} />
-                            <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} />
-                            <DropDown collection={"Status"} label="Estado" setValue={null} Cascade={false} />
+                        <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row'}}>
+                            <TextInput source="user" disabled sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                            <TextInput source="NumeroOficio" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                            <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                            <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                            <DropDown collection={"Status"} label="Estado" setValue={null} Cascade={false} sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
                         </div>
                         <div style={{ gap: 20, display: 'flex' }}>
                             <TextInput source="Comentario" multiline rows={5} sx={{ width: 560 }} />
@@ -92,10 +93,10 @@ export const TicketCreate = () => {
         <Create mutationMode="undoable" mutationOptions={{ onSuccess }}>
             {permissions !== 'Ejecutivo' &&
                 <SimpleForm>
-                    <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
-                        <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
-                        <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
-                        <DropDown collection={"Prioridad"} setValue={null} Cascade={false} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
+                    <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row'}}>
+                        <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} sx={{ marginBottom: isSmallScreen ? '10px' : '0'}} />
+                        <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} sx={{ marginBottom: isSmallScreen ? '10px' : '0'}} />
+                        <DropDown collection={"Prioridad"} setValue={null} Cascade={false} sx={{ marginBottom: isSmallScreen ? '10px' : '0', gap:80 }} />
                         <DropDown collection={"Status"} label="Estado" setValue={null} Cascade={false} sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
                         <DropDown collection="Aula" sx={{ width: '100%', marginBottom: isSmallScreen ? '10px' : '0' }} />
                     </div>
