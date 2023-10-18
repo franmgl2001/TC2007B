@@ -18,6 +18,8 @@ const createTicket = async (request, response, db, jwt) => {
         addValue["id"] = await get_id(db, "tickets");
         addValue["user"] = verifiedToken.user;
         data = await db.collection('tickets').insertOne(addValue);
+
+        logger(verifiedToken.user, "crear ticket", addValue, db)
         response.json(data);
     } catch {
         response.sendStatus(401);
@@ -87,7 +89,7 @@ const deleteTicket = async (request, response, db, jwt) => {
             return;
         }
         let data = await db.collection('tickets').deleteOne(parametersFind);
-        logger(verifiedToken.user, "eliminar objeto", request.params.id)
+        logger(verifiedToken.user, "eliminar ticket", request.params.id, db)
         response.json(data);
     } catch {
         response.sendStatus(401);
@@ -106,7 +108,6 @@ const getTicket = async (request, response, db, jwt) => {
         let data = await db.collection('tickets').findOne(parametersFind);
         // Remove _id from object
         delete data["_id"]
-        logger(verifiedToken.user, "ver ticket", request.params.id, db)
         response.json(data);
     } catch {
         response.sendStatus(401);

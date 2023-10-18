@@ -18,55 +18,100 @@ function checkPasswordLength(password) {
 }
 
 const registerUser = async (request, response, db, bcrypt, jwt) => {
-    const user = request.body.username;
-    const pass = request.body.password;
-    const fName = request.body.fullName;
-    const email = request.body.email;
-    const permissions = request.body.permissions;
-
-    // Check that jwt is valid and user is admin
-
     try {
-        let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
-        let token_user = verifiedToken.user;
-        let admin_user = await db.collection("users").findOne({ "username": token_user });
-        if (admin_user.permissions != "Admin") {
+        let user
+        let pass
+        let fName
+        let email
+        let permissions
+
+        // Check that all fields are present
+
+        if (request.body.username) {
+            user = request.body.username;
+        }
+        else {
+            response.sendStatus(400);
+            return;
+        }
+        if (request.body.password) {
+            pass = request.body.password;
+        }
+        else {
+            response.sendStatus(400);
+            return;
+        }
+        if (request.body.fullName) {
+            fName = request.body.fullName;
+        }
+        else {
+            response.sendStatus(400);
+            return;
+        }
+        if (request.body.email) {
+            email = request.body.email;
+        }
+        else {
+            response.sendStatus(400);
+            return;
+        }
+        if (request.body.permissions) {
+            permissions = request.body.permissions;
+        }
+        else {
+            response.sendStatus(400);
+            return;
+        }
+
+
+        // Check that jwt is valid and user is admin
+        let token_user
+        try {
+            let token = request.get("Authentication");
+            let verifiedToken = await jwt.verify(token, "secretKey");
+            token_user = verifiedToken.user;
+            let admin_user = await db.collection("users").findOne({ "username": token_user });
+            if (admin_user.permissions != "Admin") {
+                response.sendStatus(401);
+                return;
+            }
+        }
+        catch {
             response.sendStatus(401);
             return;
         }
+
+        if (!checkPasswordLength(pass)) {
+            response.sendStatus(400);
+            return;
+        }
+        if (!validPermissions(permissions)) {
+            response.sendStatus(400);
+            return;
+        }
+        let data = await db.collection("users").findOne({ "username": user });
+        if (data == null) {
+            try {
+                bcrypt.genSalt(10, (error, salt) => {
+                    bcrypt.hash(pass, salt, async (error, hash) => {
+                        let usuarioAgregar = {
+                            "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
+                        };
+                        usuarioAgregar["id"] = await get_id(db, "users");
+                        data = await db.collection("users").insertOne(usuarioAgregar);
+                        response.json(data);
+                        logger(token_user, "crear usuario", usuarioAgregar, db)
+                    })
+                })
+            } catch {
+                response.sendStatus(401);
+            }
+        } else {
+            response.sendStatus(400)
+        }
     }
     catch {
-        response.sendStatus(401);
-        return;
-    }
-
-    if (!checkPasswordLength(pass)) {
-        response.sendStatus(400);
-        return;
-    }
-    if (!validPermissions(permissions)) {
-        response.sendStatus(400);
-        return;
-    }
-    let data = await db.collection("users").findOne({ "username": user });
-    if (data == null) {
-        try {
-            bcrypt.genSalt(10, (error, salt) => {
-                bcrypt.hash(pass, salt, async (error, hash) => {
-                    let usuarioAgregar = {
-                        "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
-                    };
-                    usuarioAgregar["id"] = await get_id(db, "users");
-                    data = await db.collection("users").insertOne(usuarioAgregar);
-                    response.json(data);
-                })
-            })
-        } catch {
-            response.sendStatus(401);
-        }
-    } else {
-        response.sendStatus(400)
+        response.sendStatus(500);
     }
 };
 
@@ -126,7 +171,6 @@ const getUser = async (request, response, db, jwt) => {
             return;
         }
         let data = await db.collection("users").findOne({ "id": Number(request.params.id) });
-        logger(user, "ver usuario", request.params.id, db)
 
         delete data["_id"]
         delete data["password"]
