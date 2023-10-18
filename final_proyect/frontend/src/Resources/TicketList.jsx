@@ -1,4 +1,4 @@
-import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create, DateInput, usePermissions } from 'react-admin';
+import { Datagrid, List, TextField, Edit, SimpleForm, TextInput, Create, DateInput, usePermissions, useNotify, useRefresh, useRedirect } from 'react-admin';
 import DropDown from '../components/DropDown';
 import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
@@ -39,13 +39,22 @@ export const TicketList = props => {
 };
 
 export const TicketEdit = () => {
+    const notify = useNotify();
+    const redirect = useRedirect();
+    const refresh = useRefresh();
     const [selectedClasificacion, setSelectedClasificacion] = useState("SubCategoría");
     const { permissions } = usePermissions();
+    const onSuccess = () => {
+        notify(`Ticket Editado`);
+        refresh();
+        redirect('/tickets');
+    }
+
+
     return (
         <div>
-
             {permissions !== 'Ejecutivo' &&
-                <Edit>
+                <Edit mutationMode="undoable" mutationOptions={{ onSuccess }}>
                     <SimpleForm>
                         <div style={{ gap: 80, display: 'flex' }}>
                             <TextInput source="user" disabled />
@@ -74,12 +83,20 @@ export const TicketEdit = () => {
 };
 
 export const TicketCreate = () => {
+    const notify = useNotify();
+    const redirect = useRedirect();
+    const refresh = useRefresh();
     const [selectedClasificacion, setSelectedClasificacion] = useState("SubCategoría");
     const isSmallScreen = useMediaQuery('(max-width: 1300px)');
     const { permissions } = usePermissions();
+    const onSuccess = () => {
+        notify(`Ticket Creado`);
+        refresh();
+        redirect('/tickets');
+    }
 
     return (
-        <Create>
+        <Create mutationMode="undoable" mutationOptions={{ onSuccess }}>
             {permissions !== 'Ejecutivo' &&
                 <SimpleForm>
                     <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>

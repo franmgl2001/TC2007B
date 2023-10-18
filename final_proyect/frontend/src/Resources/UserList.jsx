@@ -1,4 +1,6 @@
-import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit } from 'react-admin';
+import { Refresh } from '@mui/icons-material';
+import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit, useNotify, useRefresh, useRedirect } from 'react-admin';
+import { redirect } from 'react-router-dom';
 
 
 export const UserList = () => (
@@ -15,8 +17,28 @@ export const UserList = () => (
 
 
 export const UserCreate = () => {
+    const notify = useNotify();
+    const redirect = useRedirect();
+    const refresh = useRefresh();
+
+    const onError = (error) => {
+        notify(`Error: ${error.message}`);
+        if (error.message === "Locked")
+            notify("Error: Favor de llenar todos los campos");
+        else if (error.message === "I'm a Teapot")
+            notify("Error: Contraeña debe ser de 8 caracteres o más");
+        else if (error.message === "Gone")
+            notify("Error: Usuario ya existe");
+    };
+
+    const onSuccess = () => {
+        notify(`Usuario Creado`);
+        refresh();
+        redirect('/usuarios');
+    }
+
     return (
-        <Create>
+        <Create mutationMode="undoable" mutationOptions={{ onError, onSuccess }}>
             <SimpleForm >
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" label="Usuario" />
@@ -37,8 +59,13 @@ export const UserCreate = () => {
 };
 
 export const UserEdit = () => {
+    const notify = useNotify();
+    const onError = (error) => {
+        if (error.message === "I'm a Teapot")
+            notify("Error: Contraeña debe ser de 8 caracteres o más");
+    };
     return (
-        <Edit>
+        < Edit mutationMode="undoable" mutationOptions={{ onError }} >
             <SimpleForm>
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" label="Usuario" disabled />
@@ -53,6 +80,6 @@ export const UserEdit = () => {
                     ]} label="Rol" />
                 </div>
             </SimpleForm>
-        </Edit>
+        </Edit >
     );
 };
