@@ -1,0 +1,7 @@
+/* custom.css */
+/* Target the labels in the TicketList component */
+.ra-list-TicketList label {
+    color: black;
+    /* Change the label color to black */
+    /* Add other styles as needed */
+}
