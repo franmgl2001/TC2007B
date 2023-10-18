@@ -1,4 +1,6 @@
-import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit, useNotify } from 'react-admin';
+import { Refresh } from '@mui/icons-material';
+import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit, useNotify, useRefresh, useRedirect } from 'react-admin';
+import { redirect } from 'react-router-dom';
 
 
 export const UserList = () => (
@@ -16,6 +18,9 @@ export const UserList = () => (
 
 export const UserCreate = () => {
     const notify = useNotify();
+    const redirect = useRedirect();
+    const refresh = useRefresh();
+
     const onError = (error) => {
         notify(`Error: ${error.message}`);
         if (error.message === "Locked")
@@ -26,8 +31,14 @@ export const UserCreate = () => {
             notify("Error: Usuario ya existe");
     };
 
+    const onSuccess = () => {
+        notify(`Usuario Creado`);
+        refresh();
+        redirect('/usuarios');
+    }
+
     return (
-        <Create mutationMode="undoable" mutationOptions={{ onError }}>
+        <Create mutationMode="undoable" mutationOptions={{ onError, onSuccess }}>
             <SimpleForm >
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" label="Usuario" />
@@ -69,6 +80,6 @@ export const UserEdit = () => {
                     ]} label="Rol" />
                 </div>
             </SimpleForm>
-        </Edit>
+        </Edit >
     );
 };
