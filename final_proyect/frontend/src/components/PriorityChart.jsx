@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -28,7 +28,7 @@ const PriorityChart = ({ dynamicValue }) => {
     });
 
     const authToken = localStorage.getItem('auth');
-    const apiUrl = `https://localhost:3011/report/pie/${dynamicValue}`;
+    const apiUrl = `http://localhost:3011/report/pie/${dynamicValue}`;
     useEffect(() => {
         // Make an API request using Axios
         axios.get(apiUrl, {
@@ -46,16 +46,28 @@ const PriorityChart = ({ dynamicValue }) => {
                             label: dynamicValue,
                             data: [],
                             backgroundColor: [
-                                'rgba(53, 62, 25, 0.6)',     // Low
-                                'rgba(54, 162, 235, 0.6)',   // Medium
-                                'rgba(255, 99, 132, 0.6)',   // High
+                                'rgba(255, 152, 121, 0.7)',
+                                'rgba(93, 178, 173, 0.7)',
+                                'rgba(166, 192, 128, 0.7)', 
+                                'rgba(221, 119, 128, 0.7)', 
+                                'rgba(255, 116, 127, 0.7)', 
+                                'rgba(255, 191, 104, 0.7)', 
+                                'rgba(214, 202, 117, 0.7)', 
+                                'rgba(170, 142, 198, 15)', 
+                                'rgba(107, 144, 163, 0.7)' 
 
 
                             ],
                             borderColor: [
-                                'rgba(53, 62, 25, 1)',       // Low border color
-                                'rgba(54, 162, 235, 1)',     // Medium border color
-                                'rgba(255, 99, 132, 1)',     // High border color
+                                'rgba(255, 152, 121, 0.9)', // Border Color for Orange
+                                'rgba(93, 178, 173, 0.9)', // Border Color for Teal
+                                'rgba(166, 192, 128, 0.9)', // Border Color for Green
+                                'rgba(221, 119, 128, 0.9)', // Border Color for Red
+                                'rgba(255, 116, 127, 0.9)', // Border Color for Pink
+                                'rgba(255, 191, 104, 0.9)', // Border Color for Yellow
+                                'rgba(214, 202, 117, 0.9)', // Border Color for Pale Yellow
+                                'rgba(170, 142, 198, 0.9)', // Border Color for Purple
+                                'rgba(107, 144, 163, 0.9)' // Border Color for Blue
 
 
                             ],
@@ -76,15 +88,14 @@ const PriorityChart = ({ dynamicValue }) => {
 
 
     return (
-        <div>
-            <Pie
+        <div style={{width:'40%', margin: 'auto'}}>
+            <Doughnut
                 data={chartData}
                 options={{
-                    maintainAspectRatio: false,
-                    responsive: true,
+                    radius: '100%',
+                    maintainAspectRatio: true,
+                    responsive: true, 
                 }}
-
-
             />
         </div>
     );
