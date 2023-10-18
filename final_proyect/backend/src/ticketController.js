@@ -33,6 +33,23 @@ const getAllTickets = async (request, response, db, jwt) => {
         if (authData.permissions == "Coordinador") {
             parametersFind["user"] = verifiedToken.user;
         }
+        if ("search" in request.query) {
+            const searchQuery = request.query.search;
+            // Add search conditions to parametersFind object based on specific keys
+            parametersFind["$or"] = [
+                { "Prioridad": { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for key1
+                { "Aula": { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for key2
+                { "Coordinador": { $regex: searchQuery, $options: "i" } },
+                { "Categoría": { $regex: searchQuery, $options: "i" } },
+                { "Status": { $regex: searchQuery, $options: "i" } },
+                { "Fecha de Incidente": { $regex: searchQuery, $options: "i" } },
+                { "Fecha de Resolución": { $regex: searchQuery, $options: "i" } },
+                { "NumeroOficio": { $regex: searchQuery, $options: "i" } }
+
+
+            ];
+        }
+
         if ("_sort" in request.query) {
             let sortBy = request.query._sort;
             let sortOrder = request.query._order == "ASC" ? 1 : -1;
@@ -45,16 +62,9 @@ const getAllTickets = async (request, response, db, jwt) => {
             response.set('X-Total-Count', data.length)
             data = data.slice(start, end)
             response.json(data);
-        } else if ("id" in request.query) {
-            let data = []
-            for (let index = 0; index < request.query.id.length; index++) {
-                let dataObtain = await db.collection('tickets').find({ id: Number(request.query.id[index]) }).project({ _id: 0 }).toArray();
-                data = await data.concat(dataObtain)
-            }
-            response.json(data);
         } else {
             let data = []
-            data = await db.collection('tickets').find(request.query).project({ _id: 0 }).toArray();
+            data = await db.collection('tickets').find(parametersFind).project({ _id: 0 }).toArray();
             response.set('Access-Control-Expose-Headers', 'X-Total-Count')
             response.set('X-Total-Count', data.length)
 
