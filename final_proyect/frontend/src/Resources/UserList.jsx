@@ -1,4 +1,4 @@
-import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit } from 'react-admin';
+import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit, useNotify } from 'react-admin';
 
 
 export const UserList = () => (
@@ -15,8 +15,19 @@ export const UserList = () => (
 
 
 export const UserCreate = () => {
+    const notify = useNotify();
+    const onError = (error) => {
+        notify(`Error: ${error.message}`);
+        if (error.message === "Locked")
+            notify("Error: Favor de llenar todos los campos");
+        else if (error.message === "I'm a Teapot")
+            notify("Error: Contraeña debe ser de 8 caracteres o más");
+        else if (error.message === "Gone")
+            notify("Error: Usuario ya existe");
+    };
+
     return (
-        <Create>
+        <Create mutationMode="undoable" mutationOptions={{ onError }}>
             <SimpleForm >
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" label="Usuario" />
@@ -37,8 +48,13 @@ export const UserCreate = () => {
 };
 
 export const UserEdit = () => {
+    const notify = useNotify();
+    const onError = (error) => {
+        if (error.message === "I'm a Teapot")
+            notify("Error: Contraeña debe ser de 8 caracteres o más");
+    };
     return (
-        <Edit>
+        < Edit mutationMode="undoable" mutationOptions={{ onError }} >
             <SimpleForm>
                 <div style={{ gap: 80, display: 'flex' }}>
                     <TextInput source="username" label="Usuario" disabled />

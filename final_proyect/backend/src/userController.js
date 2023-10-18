@@ -31,35 +31,35 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
             user = request.body.username;
         }
         else {
-            response.sendStatus(400);
+            response.sendStatus(423);
             return;
         }
         if (request.body.password) {
             pass = request.body.password;
         }
         else {
-            response.sendStatus(400);
+            response.sendStatus(423);
             return;
         }
         if (request.body.fullName) {
             fName = request.body.fullName;
         }
         else {
-            response.sendStatus(400);
+            response.sendStatus(423);
             return;
         }
         if (request.body.email) {
             email = request.body.email;
         }
         else {
-            response.sendStatus(400);
+            response.sendStatus(423);
             return;
         }
         if (request.body.permissions) {
             permissions = request.body.permissions;
         }
         else {
-            response.sendStatus(400);
+            response.sendStatus(423);
             return;
         }
 
@@ -82,11 +82,12 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
         }
 
         if (!checkPasswordLength(pass)) {
-            response.sendStatus(400);
+            response.status(418).send('Contraseña de 8 caracteres es requerida.');
             return;
         }
         if (!validPermissions(permissions)) {
-            response.sendStatus(400);
+            console.log
+            response.sendStatus(421).send('Permisos inválidos.');
             return;
         }
         let data = await db.collection("users").findOne({ "username": user });
@@ -107,7 +108,7 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
                 response.sendStatus(401);
             }
         } else {
-            response.sendStatus(400)
+            response.sendStatus(410)
         }
     }
     catch {
@@ -205,9 +206,9 @@ const updateUser = async (request, response, db, bcrypt, jwt) => {
         const pass = String(UpdateObject.password);
 
         // check that password is not on UpdateObject
-        if (UpdateObject.password) {
+        if (pass) {
             if (!checkPasswordLength(pass)) {
-                response.sendStatus(400);
+                response.sendStatus(418);
                 return;
             }
 
