@@ -3,26 +3,19 @@ import DropDown from '../components/DropDown';
 import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout, ReferenceInput } from 'react-admin';
-import { makeStyles } from '@material-ui/core/styles';
+import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout} from 'react-admin';
 
-const useStyles = makeStyles({
-    headerCell: {
-        backgroundColor: 'MistyRose',
-        fontWeight: 'bold',
-    }
-});
 
 const postFilters = [
     <TextInput source="search" label="Search" alwaysOn />,
 ];
 
 export const TicketList = props => {
-    const classes = useStyles();
+
     const { permissions } = usePermissions();
     return (
         <List filters={postFilters} {...props} >
-            <Datagrid rowClick="show" classes={classes} {...props}>
+            <Datagrid rowClick="show" {...props}>
                 {permissions === 'Admin' &&
                     <TextField source="user" label="Coordinador" />}
                 <TextField source="Categoría" />
