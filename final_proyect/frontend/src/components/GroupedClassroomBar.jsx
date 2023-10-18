@@ -20,6 +20,7 @@ const GroupedClassroomBar = ({ dynamicValue }) => {
             },
         },
         responsive: true,
+        maintainAspectRatio: true,
         scales: {
             x: {
                 stacked: true,
@@ -41,11 +42,17 @@ const GroupedClassroomBar = ({ dynamicValue }) => {
             },
         })
             .then(response => {
+                
                 const colors = [
-                    'rgba(255, 99, 132, 0.6)',// Add other colors here
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(53, 62, 25, 0.6)',
-
+                    'rgba(255, 152, 121, 0.7)', // 
+                    'rgba(93, 178, 173, 0.7)',
+                    'rgba(166, 192, 128, 0.7)', 
+                    'rgba(221, 119, 128, 0.7)', 
+                    'rgba(255, 116, 127, 0.7)', 
+                    'rgba(255, 191, 104, 0.7)', 
+                    'rgba(214, 202, 117, 0.7)', 
+                    'rgba(170, 142, 198, 15)', 
+                    'rgba(107, 144, 163, 0.7)' 
                 ]
                 let colorIndex = 0;
                 // Prepare data here (as shown in previous examples) and set it in state
