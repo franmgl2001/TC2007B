@@ -24,11 +24,11 @@ const App = () => {
     <Admin dataProvider={dataProvider} authProvider={authProvider} i18nProvider={i18nProvider} darkTheme={{ palette: { mode: 'dark' } }} loginPage={LoginPage} >
       {permissions => (
         <>
-          <Resource name="tickets" list={TicketList} create={permissions !== 'Ejecutivo' ? TicketCreate : null} show={TicketShow} recordRepresentation="Coordinador" edit={permissions !== 'Ejecutivo' ? TicketEdit : null} icon={PostIcon} options={{ label: "Tickets" }} />
+          <Resource name="Tickets" list={TicketList} create={permissions !== 'Ejecutivo' ? TicketCreate : null} show={TicketShow} recordRepresentation="Coordinador" edit={permissions !== 'Ejecutivo' ? TicketEdit : null} icon={PostIcon} options={{ label: "Tickets" }} />
           {permissions === 'Admin' &&
-            <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
+            <Resource name="Usuarios" list={UserList} create={UserCreate} icon={UserIcon} edit={UserEdit} />
           }
-          <Resource name="reports" list={ReportList} icon={BarChartOutlinedIcon} />
+          <Resource name="Reportes" list={ReportList} icon={BarChartOutlinedIcon} />
 
         </>
       )}
