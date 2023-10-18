@@ -3,7 +3,7 @@ import DropDown from '../components/DropDown';
 import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout } from 'react-admin';
+import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout, SimpleList } from 'react-admin';
 
 
 const postFilters = [
@@ -12,23 +12,31 @@ const postFilters = [
 
 export const TicketList = props => {
 
+    const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
     const { permissions } = usePermissions();
     return (
         <List filters={postFilters} {...props} >
-            <Datagrid rowClick="show" {...props}>
-                {permissions === 'Admin' &&
-                    <TextField source="user" label="Coordinador" />}
-                <TextField source="Categoría" />
-                <TextField source="SubCategoría" />
-                <TextField source="Prioridad" />
-                <TextField source="Aula" />
-                <TextField source="Status" label="Estado" />
-                <DateField source="Fecha de Incidente" />
-                <DateField source="Fecha de Resolución" />
-                {permissions !== 'Ejecutivo' && <EditButton />}
-            </Datagrid>
+            {isSmall ? (
+                < SimpleList
+                primaryText={(record) => record.Categoría}
+                secondaryText={(record) => record.SubCategoría}
+                tertiaryText={(record) => record.Prioridad}
+            /> ) : (
+                <Datagrid rowClick="show" {...props}>
+                    {permissions === 'Admin' &&
+                        <TextField source="user" label="Coordinador" />}
+                    <TextField source="Categoría" />
+                    <TextField source="SubCategoría" />
+                    <TextField source="Prioridad" />
+                    <TextField source="Aula" />
+                    <TextField source="Status" label="Estado" />
+                    <DateField source="Fecha de Incidente" />
+                    <DateField source="Fecha de Resolución" />
+                    {permissions !== 'Ejecutivo' && <EditButton />}
+                </Datagrid>
+            )}
         </List>
-    )
+    );
 };
 
 export const TicketEdit = () => {
@@ -119,12 +127,15 @@ export const TicketShow = () => {
                     <TextField source="user" label="Coordinador" />
                     <TextField source="Categoría" />
                     <TextField source="SubCategoría" />
-                    <DateField source="Fecha de Incidente" />
-                    <DateField source="Fecha de Resolución" />
                     <TextField source="Prioridad" />
                     <TextField source="Status" label="Estado" />
-                    <TextField source="Aula" />
                     <TextField source="NumeroOficio" />
+                </TabbedShowLayout.Tab>
+                <TabbedShowLayout.Tab label="Lugar y Fecha">
+                    <TextField source="Aula" />
+                    <DateField source="Fecha de Incidente" />
+                    <DateField source="Fecha de Resolución" />
+                    
                 </TabbedShowLayout.Tab>
                 <TabbedShowLayout.Tab label="Descripción">
                     <RichTextField source="Proceso" />

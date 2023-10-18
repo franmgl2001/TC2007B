@@ -1,19 +1,28 @@
-import { Refresh } from '@mui/icons-material';
-import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit, useNotify, useRefresh, useRedirect } from 'react-admin';
-import { redirect } from 'react-router-dom';
+import { Datagrid, List, TextField, SimpleForm, Create, TextInput, PasswordInput, EditButton, SelectInput, Edit, useNotify, useRefresh, useRedirect, SimpleList } from 'react-admin';
+import { useMediaQuery } from '@mui/material';
 
+export const UserList = () => {
+    const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
-export const UserList = () => (
-    < List >
-        <Datagrid >
-            <TextField source="username" label="Usuario" />
-            <TextField source="fullName" label="Nombre" />
-            <TextField source="email" />
-            <TextField source="permissions" label="Rol" />
-            <EditButton />
-        </Datagrid>
-    </List >
-);
+    return (
+        < List >
+        {isSmall ? (
+                < SimpleList
+                primaryText={(record) => record.username}
+                secondaryText={(record) => record.fullName}
+                tertiaryText={(record) => record.email}
+            /> ) : (
+            <Datagrid >
+                <TextField source="username" label="Usuario" />
+                <TextField source="fullName" label="Nombre" />
+                <TextField source="email" />
+                <TextField source="permissions" label="Rol" />
+                <EditButton />
+            </Datagrid>
+            )}
+        </List >
+    );
+};
 
 
 export const UserCreate = () => {
