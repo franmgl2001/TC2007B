@@ -68,6 +68,8 @@ export const UserCreate = () => {
 };
 
 export const UserEdit = () => {
+    const isSmallScreen = useMediaQuery('(max-width: 1300px)');
+
     const notify = useNotify();
     const onError = (error) => {
         console.log(error.message);
@@ -78,17 +80,17 @@ export const UserEdit = () => {
     return (
         < Edit mutationMode="undoable" mutationOptions={{ onError }} >
             <SimpleForm>
-                <div style={{ gap: 80, display: 'flex' }}>
-                    <TextInput source="username" label="Usuario" disabled />
-                    <PasswordInput source="password" label="Contraseña" />
-                    <TextInput source="fullName" label="Nombre Completo" />
-                    <TextInput source="email" label="Email" />
+                <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row'}}>
+                    <TextInput source="username" label="Usuario" disabled sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                    <PasswordInput source="password" label="Contraseña" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                    <TextInput source="fullName" label="Nombre Completo" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                    <TextInput source="email" label="Email" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
                     <SelectInput source="permissions" choices={[
                         { id: 'Admin', name: "Admin" },
                         { id: 'Coordinador', name: 'Coordinador' },
                         { id: 'Coordinador Nacional', name: 'Coordinador Nacional' },
                         { id: 'Ejecutivo', name: 'Ejecutivo' },
-                    ]} label="Rol" />
+                    ]} label="Rol"sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
 
                 </div>
             </SimpleForm>
