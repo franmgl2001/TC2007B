@@ -11,6 +11,7 @@ import { ReportList } from './Resources/ReportList';
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import './custom.css';
 
 
 

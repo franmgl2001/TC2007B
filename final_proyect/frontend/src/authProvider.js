@@ -47,8 +47,13 @@ const authProvider = {
         }
     },
     getPermissions: () => {
-        const role = localStorage.getItem('permissions');
-        return role ? Promise.resolve(role) : Promise.reject()
+        try {
+            const role = localStorage.getItem('permissions');
+            return role ? Promise.resolve(role) : Promise.reject()
+        }
+        catch {
+            return Promise.reject()
+        }
     },
 };
 

@@ -33,9 +33,9 @@ const IncidentLineChart = () => {
         })
             .then(response => {
                 const colors = [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6',
-                    'rgba(53, 62, 25, 0.6',
+                    'rgba(166, 192, 128, 0.7)',
+                    'rgba(255, 116, 127, 0.7)'
+
                 ];
 
                 // Data for the first line
