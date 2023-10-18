@@ -4,6 +4,14 @@ import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
 import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout, ReferenceInput } from 'react-admin';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    headerCell: {
+        backgroundColor: 'MistyRose',
+        fontWeight: 'bold',
+    }
+});
 
 const postFilters = [
     <TextInput source="q" label="Search" alwaysOn />,
@@ -14,11 +22,12 @@ const postFilters = [
     <ReferenceInput source="Status" label="Status" reference="Status" />,
 ];
 
-export const TicketList = () => {
+export const TicketList = props => {
+    const classes = useStyles();
     const { permissions } = usePermissions();
     return (
-        <List filters={postFilters} >
-            <Datagrid rowClick="show">
+        <List filters={postFilters} {...props} >
+            <Datagrid rowClick="show" classes={classes} {...props}>
                 {permissions === 'Admin' &&
                     <TextField source="user" label="Coordinador" />}
                 <TextField source="Categoría" />
@@ -34,9 +43,11 @@ export const TicketList = () => {
     )
 };
 
-export const TicketEdit = () => {
-    const [selectedClasificacion, setSelectedClasificacion] = useState('SubCategoria');
+export const TicketEdit = (props) => {
+    const [selectedClasificacion, setSelectedClasificacion] = useState("SubCategoría");
     const { permissions } = usePermissions();
+    const { record } = props;
+    console.log(record);
     return (
         <div>
 
@@ -44,30 +55,33 @@ export const TicketEdit = () => {
                 <Edit>
                     <SimpleForm>
                         <div style={{ gap: 80, display: 'flex' }}>
-                            <TextInput source="id" disabled />
-                            <TextInput source="coordinador" disabled />
+                            <TextInput source="user" disabled />
+                            <TextInput source="NumeroOficio" />
                             <DropDown collection={"Categoría"} setValue={setSelectedClasificacion} Cascade={true} />
                             <CascadeDropDown collection={selectedClasificacion} parentValue={selectedClasificacion} />
                             <DropDown collection={"Status"} setValue={null} Cascade={false} />
                         </div>
                         <div style={{ gap: 20, display: 'flex' }}>
-                            <TextInput source="descripcion" multiline rows={5} sx={{ width: 560 }} />
-                            <TextInput source="comentario" multiline rows={5} sx={{ width: 560 }} />
+                            <TextInput source="Comentario" multiline rows={5} sx={{ width: 560 }} />
+                            <TextInput source="Resolución" multiline rows={5} sx={{ width: 560 }} />
                         </div>
-                        <DateInput source="Fecha de Resolución" />
+                        <div style={{ gap: 20, display: 'flex' }}>
+                            <DateInput source="Fecha de Incidente" />
+                            <DateInput source="Fecha de Resolución" />
+                        </div>
                     </SimpleForm>
 
                 </Edit>
             }
 
-        </div>
+        </div >
 
     );
 
 };
 
 export const TicketCreate = () => {
-    const [selectedClasificacion, setSelectedClasificacion] = useState('SubCategoria');
+    const [selectedClasificacion, setSelectedClasificacion] = useState("SubCategoría");
     const isSmallScreen = useMediaQuery('(max-width: 1300px)');
     const { permissions } = usePermissions();
 

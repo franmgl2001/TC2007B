@@ -1,14 +1,14 @@
 import "./loginP.css";
 import Button from '@mui/material/Button';
 import React, { useState } from 'react';
-import { useLogin, useRedirect } from "react-admin";
+import { useLogin, useNotify } from "react-admin";
 
 function LoginPage() {
   // State to store user inputs
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const login = useLogin()
+  const notify = useNotify()
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -25,8 +25,7 @@ function LoginPage() {
       // Make an API call to authenticate the user
       login(requestBody);
     } catch (error) {
-      console.error("Error authenticating user:", error);
-      setError('An error occurred while logging in. Please try again later.');
+      notify('Invalid username or password')
     }
   };
 
@@ -44,7 +43,6 @@ function LoginPage() {
         </div>
         <div className="login-box">
           <h2 style={{ textAlign: 'center' }}>Login</h2>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
           <form onSubmit={handleSubmit}>
             {/* Username input */}
             <div className="form-group">

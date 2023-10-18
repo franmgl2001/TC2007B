@@ -12,7 +12,7 @@ const CascadeDropDown = ({ collection, parentValue }) => {
         const apiUrl = `https://localhost:3011/dropdown/${collection}`;
 
         // Fetch data from the API using Axios with the authentication header
-        if (collection !== 'SubCategoria') {
+        if (collection !== 'SubCategoría') {
             axios
                 .get(apiUrl, {
                     headers: {
