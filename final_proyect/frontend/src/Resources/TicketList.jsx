@@ -15,11 +15,6 @@ const useStyles = makeStyles({
 
 const postFilters = [
     <TextInput source="search" label="Search" alwaysOn />,
-    <ReferenceInput source="Categoría" label="Categoría" reference="Categoría" />,
-    <ReferenceInput source="SubCategoría" label="Sub Categoría" reference="SubCategoría" />,
-    <ReferenceInput source="Prioridad" label="Prioridad" reference="Prioridad" />,
-    <ReferenceInput source="Aula" label="Aula" reference="Aula" />,
-    <ReferenceInput source="Status" label="Estado" reference="Status" />,
 ];
 
 export const TicketList = props => {
