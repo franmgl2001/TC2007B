@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "chart.js": "^4.4.0",
-    "faker": "^6.6.6",
+    "faker": "^5.5.3",
     "jwt-decode": "^3.1.2",
     "ra-data-json-server": "^4.14.1",
     "ra-language-spanish": "^1.0.0",
