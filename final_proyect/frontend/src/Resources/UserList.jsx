@@ -61,9 +61,11 @@ export const UserCreate = () => {
 export const UserEdit = () => {
     const notify = useNotify();
     const onError = (error) => {
+        console.log(error.message);
         if (error.message === "I'm a Teapot")
             notify("Error: Contraeña debe ser de 8 caracteres o más");
     };
+
     return (
         < Edit mutationMode="undoable" mutationOptions={{ onError }} >
             <SimpleForm>
@@ -78,6 +80,7 @@ export const UserEdit = () => {
                         { id: 'Coordinador Nacional', name: 'Coordinador Nacional' },
                         { id: 'Ejecutivo', name: 'Ejecutivo' },
                     ]} label="Rol" />
+
                 </div>
             </SimpleForm>
         </Edit >

@@ -3,7 +3,7 @@ import DropDown from '../components/DropDown';
 import CascadeDropDown from '../components/CascadeDropDown';
 import React, { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout} from 'react-admin';
+import { Show, EditButton, RichTextField, DateField, PrevNextButtons, TopToolbar, TabbedShowLayout } from 'react-admin';
 
 
 const postFilters = [
@@ -32,22 +32,14 @@ export const TicketList = props => {
 };
 
 export const TicketEdit = () => {
-    const notify = useNotify();
-    const redirect = useRedirect();
-    const refresh = useRefresh();
     const [selectedClasificacion, setSelectedClasificacion] = useState("SubCategoría");
     const { permissions } = usePermissions();
-    const onSuccess = () => {
-        notify(`Ticket Editado`);
-        refresh();
-        redirect('/tickets');
-    }
 
 
     return (
         <div>
             {permissions !== 'Ejecutivo' &&
-                <Edit mutationMode="undoable" mutationOptions={{ onSuccess }}>
+                <Edit >
                     <SimpleForm>
                         <div style={{ gap: 80, display: 'flex' }}>
                             <TextInput source="user" disabled />
