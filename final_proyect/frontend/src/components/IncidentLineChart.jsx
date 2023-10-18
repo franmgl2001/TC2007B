@@ -45,7 +45,7 @@ const IncidentLineChart = () => {
                 // Data for the first line
                 const data1 = {
                     id: '1',
-                    label: 'Issued Tickets',
+                    label: 'Tickets Emitidos',
                     data: response.data.dataInc,
                     borderColor: colors[0],
                     backgroundColor: colors[0],
@@ -54,7 +54,7 @@ const IncidentLineChart = () => {
                 // Data for the second line
                 const data2 = {
                     id: '2',
-                    label: 'Resolved Tickets',
+                    label: 'Tickets Resueltos',
                     data: response.data.dataRes,
                     borderColor: colors[1],
                     backgroundColor: colors[1],
