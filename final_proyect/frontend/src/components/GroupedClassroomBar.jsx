@@ -88,7 +88,7 @@ const GroupedClassroomBar = ({ dynamicValue }) => {
 
     return (
         <div >
-            <Bar options={options} data={chartData} />;
+            <Bar options={options} data={chartData} />
         </div>
     )
 
