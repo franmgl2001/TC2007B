@@ -115,35 +115,31 @@ const getTicket = async (request, response, db, jwt) => {
 };
 
 const updateTicket = async (request, response, db, jwt) => {
-    try {
-        const token = request.get("Authentication");
-        const verifiedToken = await jwt.verify(token, "secretKey");
-        const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
-        let parametersFind = {}
-        let updateValue = request.body;
-        if (authData.permissions == "Coordinador") {
-            parametersFind["user"] = verifiedToken.user;
-        }
-        else if
-            (authData.permissions == "Ejecutivo") {
-            response.sendStatus(401);
-            return;
-        }
-        parametersFind["id"] = Number(request.params.id)
-
-        await db.collection('tickets').updateOne(parametersFind, { $set: updateValue });
-
-        let data = await db.collection('tickets').findOne(parametersFind);
-        // Remove _id from object
-        delete data["_id"]
-
-        await logger(verifiedToken.user, "actualizar ticket", request.params.id, db)
-        response.json(data);
+    const token = request.get("Authentication");
+    const verifiedToken = await jwt.verify(token, "secretKey");
+    const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
+    let parametersFind = {}
+    let updateValue = request.body;
+    if (authData.permissions == "Coordinador") {
+        parametersFind["user"] = verifiedToken.user;
     }
-    catch {
+    else if
+        (authData.permissions == "Ejecutivo") {
         response.sendStatus(401);
+        return;
     }
+    parametersFind["id"] = Number(request.params.id)
+    console.log(parametersFind)
+    console.log(updateValue)
+    await db.collection('tickets').updateOne(parametersFind, { $set: updateValue });
 
+    let data = await db.collection('tickets').findOne(parametersFind);
+    // Remove _id from object
+    delete data["_id"]
+
+    await logger(verifiedToken.user, "actualizar ticket", request.params.id, db)
+    console.log(data)
+    response.json(data);
 }
 
 module.exports = {

@@ -86,7 +86,6 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
             return;
         }
         if (!validPermissions(permissions)) {
-            console.log
             response.sendStatus(421).send('Permisos inválidos.');
             return;
         }
