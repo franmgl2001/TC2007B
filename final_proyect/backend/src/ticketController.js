@@ -41,12 +41,11 @@ const getAllTickets = async (request, response, db, jwt) => {
                 { "Aula": { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for key2
                 { "Coordinador": { $regex: searchQuery, $options: "i" } },
                 { "Categoría": { $regex: searchQuery, $options: "i" } },
+                { "Subcategoría": { $regex: searchQuery, $options: "i" } },
                 { "Status": { $regex: searchQuery, $options: "i" } },
                 { "Fecha de Incidente": { $regex: searchQuery, $options: "i" } },
                 { "Fecha de Resolución": { $regex: searchQuery, $options: "i" } },
                 { "NumeroOficio": { $regex: searchQuery, $options: "i" } }
-
-
             ];
         }
 
