@@ -1,7 +1,7 @@
 import "./loginP.css";
 import Button from '@mui/material/Button';
 import React, { useState } from 'react';
-import { useLogin, useRedirect } from "react-admin";
+import { useLogin, useNotify } from "react-admin";
 
 
 
@@ -9,8 +9,8 @@ function LoginPage() {
   // State to store user inputs
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const login = useLogin()
+  const notify = useNotify()
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -25,6 +25,7 @@ function LoginPage() {
 
 
 
+
     // Make an API call to authenticate the user
     login(requestBody).then(() => {
       console.log("Login successful");
@@ -34,6 +35,7 @@ function LoginPage() {
         // Handle authentication error and notify the user
         notify('Invalid username or password');
       });
+
   };
 
   return (
@@ -43,16 +45,13 @@ function LoginPage() {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      background: 'linear-gradient(90deg, #007514, #ffffff, #970000)',
+      backgroundImage: 'url("./whitePM.jpg")'
     }}>
       <div className="login-container">
-        {/* Logo */}
         <div className="logo">
-          <img src="./fund.png" style={{ width: '100%', height: 'auto' }} />
         </div>
         <div className="login-box">
           <h2 style={{ textAlign: 'center' }}>Login</h2>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
           <form onSubmit={handleSubmit}>
             {/* Username input */}
             <div className="form-group">
@@ -63,6 +62,7 @@ function LoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="login-input"
+                placeholder="Username"
               />
             </div>
             {/* Password input */}
@@ -74,6 +74,7 @@ function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="login-input"
+                placeholder="Password"
               />
             </div>
             {/* Submit button */}

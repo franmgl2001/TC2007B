@@ -9,7 +9,7 @@ const { getDropdown } = require("./dropdownController");
 const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
-const { priorityChart, classroomChart } = require('./reportController');
+const { priorityChart, classroomChart, incidentsChart } = require('./reportController');
 
 // Declare app and port
 const app = express()
@@ -38,19 +38,12 @@ async function connectDB() {
     return db;
 }
 
-// APIs
-app.post("/create/tickets", async (request, response) => {
-    let addValue = request.body;
-    db = await connectDB();
-    data = await db.collection('tickets').insertOne(addValue);
-    response.json({ "statusCode": 200 });
-})
 // Register and Login File (userController.js)
-app.post("/users", async (request, response) => {
-    registerUser(request, response, db, bcrypt);
+app.post("/usuarios", async (request, response) => {
+    registerUser(request, response, db, bcrypt, jwt);
 })
 
-app.get("/users", async (request, response) => {
+app.get("/usuarios", async (request, response) => {
     getAllUsers(request, response, db, jwt);
 })
 
@@ -58,15 +51,15 @@ app.post("/login", async (request, response) => {
     loginUser(request, response, db, bcrypt, jwt);
 })
 
-app.get("/users/:id", async (request, response) => {
+app.get("/usuarios/:id", async (request, response) => {
     getUser(request, response, db, jwt);
 })
 
-app.put("/users/:id", async (request, response) => {
-    updateUser(request, response, db, jwt);
+app.put("/usuarios/:id", async (request, response) => {
+    updateUser(request, response, db, bcrypt, jwt);
 });
 
-app.delete("/users/:id", async (request, response) => {
+app.delete("/usuarios/:id", async (request, response) => {
     deleteUser(request, response, db, jwt);
 });
 
@@ -108,6 +101,9 @@ app.get("/report/classroom/:collection", async (request, response) => {
     classroomChart(request, response, db, jwt);
 });
 
+app.get("/report/incidents", async (request, response) => {
+    incidentsChart(request, response, db, jwt);
+});
 // Start server
 https.createServer(credentials, app).listen(port, () => {
     connectDB();

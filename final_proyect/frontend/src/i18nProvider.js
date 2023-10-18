@@ -1,14 +1,9 @@
 import polyglotI18nProvider from 'ra-i18n-polyglot';
-import en from 'ra-language-english';
-import esp from 'ra-language-spanish';
-
-const translations = { en, esp };
+import { spanishMessages } from './spanishMessages.js';
 
 export const i18nProvider = polyglotI18nProvider(
-    locale => translations[locale],
-    'en', 
-    [{ locale: 'en', name: 'English' }, { locale: 'esp', name: 'Español' }],
+    locale => spanishMessages, 'es',
+    [{ locale: 'en', name: 'English' }, { locale: 'esp', name: 'Español' }], // Default locale
 );
-
 
 
