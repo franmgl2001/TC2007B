@@ -1,5 +1,7 @@
 const { logger } = require("./logger");
 const { get_id } = require("./misc");
+require('dotenv').config();
+const secret = process.env.jwt_key
 
 const validPermissions = (collection) => {
     const validCollections = [
@@ -68,7 +70,7 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
         let token_user
         try {
             let token = request.get("Authentication");
-            let verifiedToken = await jwt.verify(token, "secretKey");
+            let verifiedToken = await jwt.verify(token, secret);
             token_user = verifiedToken.user;
             let admin_user = await db.collection("users").findOne({ "username": token_user });
             if (admin_user.permissions != "Admin") {
@@ -118,7 +120,8 @@ const registerUser = async (request, response, db, bcrypt, jwt) => {
 
 
 
-const loginUser = async (request, response, db, bcrypt, jwt, log) => {
+const loginUser = async (request, response, db, bcrypt, jwt) => {
+
     let user = request.body.username;
     let pass = request.body.password;
     let data = await db.collection("users").findOne({ "username": user });
@@ -128,7 +131,7 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
     } else {
         bcrypt.compare(pass, data.password, (error, result) => {
             if (result) {
-                let token = jwt.sign({ user: data.username, permissions: data.permissions }, "secretKey", { expiresIn: 360000 });
+                let token = jwt.sign({ user: data.username, permissions: data.permissions }, secret, { expiresIn: 360000 });
                 response.json({ "token": token, "id": data.username, "fullName": data.fullName })
                 logger(data.username, "login", "", db)
             } else {
@@ -141,7 +144,7 @@ const loginUser = async (request, response, db, bcrypt, jwt, log) => {
 const getAllUsers = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let verifiedToken = await jwt.verify(token, secret);
         let user = verifiedToken.user;
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {
@@ -162,7 +165,7 @@ const getAllUsers = async (request, response, db, jwt) => {
 const getUser = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let verifiedToken = await jwt.verify(token, secret);
         let user = verifiedToken.user;
         let admin_user = await db.collection("users").findOne(
             { "username": user }
@@ -187,7 +190,7 @@ const getUser = async (request, response, db, jwt) => {
 const updateUser = async (request, response, db, bcrypt, jwt) => {
     try {
         let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let verifiedToken = await jwt.verify(token, secret);
         let user = verifiedToken.user;
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {
@@ -247,7 +250,7 @@ const updateUser = async (request, response, db, bcrypt, jwt) => {
 const deleteUser = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let verifiedToken = await jwt.verify(token, secret);
         let user = verifiedToken.user;
         let admin_user = await db.collection("users").findOne({ "username": user });
         if (admin_user.permissions != "Admin") {

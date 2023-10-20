@@ -1,11 +1,13 @@
 const { logger } = require("./logger");
 const { get_id } = require("./misc");
+require('dotenv').config();
+const secret = process.env.jwt_key
 
 //create
 const createTicket = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let verifiedToken = await jwt.verify(token, secret);
         // Executive can't create tickets
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         if (authData.permissions == "Ejecutivo") {
@@ -29,7 +31,7 @@ const createTicket = async (request, response, db, jwt) => {
 const getAllTickets = async (request, response, db, jwt) => {
     try {
         let token = request.get("Authentication");
-        let verifiedToken = await jwt.verify(token, "secretKey");
+        let verifiedToken = await jwt.verify(token, secret);
         let authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
         if (authData.permissions == "Coordinador") {
@@ -79,7 +81,7 @@ const getAllTickets = async (request, response, db, jwt) => {
 const deleteTicket = async (request, response, db, jwt) => {
     try {
         const token = request.get("Authentication");
-        const verifiedToken = await jwt.verify(token, "secretKey");
+        const verifiedToken = await jwt.verify(token, secret);
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = { "id": Number(request.params.id) }
         if (authData.permissions == "Coordinador") {
@@ -99,7 +101,7 @@ const deleteTicket = async (request, response, db, jwt) => {
 const getTicket = async (request, response, db, jwt) => {
     try {
         const token = request.get("Authentication");
-        const verifiedToken = await jwt.verify(token, "secretKey");
+        const verifiedToken = await jwt.verify(token, secret);
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = { "id": Number(request.params.id) }
         if (authData.permissions == "Coordinador") {
@@ -116,7 +118,7 @@ const getTicket = async (request, response, db, jwt) => {
 
 const updateTicket = async (request, response, db, jwt) => {
     const token = request.get("Authentication");
-    const verifiedToken = await jwt.verify(token, "secretKey");
+    const verifiedToken = await jwt.verify(token, secret);
     const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
     let parametersFind = {}
     let updateValue = request.body;

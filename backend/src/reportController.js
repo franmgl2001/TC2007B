@@ -1,3 +1,6 @@
+require('dotenv').config();
+const secret = process.env.jwt_key
+
 const validCollection = (collection) => {
     const validCollections = [
         "Categoría",
@@ -14,7 +17,7 @@ const priorityChart = async (request, response, db, jwt) => {
             response.sendStatus(401);
         }
         const token = request.get("Authentication");
-        const verifiedToken = await jwt.verify(token, "secretKey");
+        const verifiedToken = await jwt.verify(token, secret);
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
 
@@ -50,7 +53,7 @@ const classroomChart = async (request, response, db, jwt) => {
             response.sendStatus(401);
         }
         const token = request.get("Authentication");
-        const verifiedToken = await jwt.verify(token, "secretKey");
+        const verifiedToken = await jwt.verify(token, secret);
         const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
         let parametersFind = {}
         if (authData.permissions == "Coordinador") {
@@ -205,7 +208,7 @@ function mergeData(jsonData) {
 
 const incidentsChart = async (request, response, db, jwt) => {
     const token = request.get("Authentication");
-    const verifiedToken = await jwt.verify(token, "secretKey");
+    const verifiedToken = await jwt.verify(token, secret);
     const authData = await db.collection("users").findOne({ "username": verifiedToken.user })
     let parametersFind = {}
     if (authData.permissions == "Coordinador") {
