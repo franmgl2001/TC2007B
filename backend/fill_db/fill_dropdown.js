@@ -165,7 +165,6 @@ async function addAdminUser(db) {
 
     // Hash password using bcrypt
     const salt = await bcrypt.genSalt(10);
-    console.log(salt);
     pass = await bcrypt.hash(pass, salt);
 
     let usuarioAgregar = {
