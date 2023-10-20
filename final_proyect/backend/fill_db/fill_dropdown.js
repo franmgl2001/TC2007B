@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
 
+
 async function connectDB() {
     let client = new MongoClient("mongodb://localhost:27017/PorMexicoDev")
     await client.connect();
@@ -16,6 +17,21 @@ function addNameToData(data) {
         })
     }
     return newData;
+}
+
+
+async function get_id(db, collection) {
+
+    let res = await db.collection(collection)
+        .find()
+        .sort({ _id: -1 }) // Sort in descending order based on _id
+        .limit(1) // Limit the result to 1 document
+        .toArray()
+
+    if (res.length == 0) {
+        return 1;
+    }
+    return res[0].id + 1;
 }
 
 
@@ -142,22 +158,26 @@ async function addDataToDB(db, data) {
 
 async function addAdminUser(db) {
     const user = "admin";
-    const pass = "admin123";
+    let pass = "admin123";
     const fName = "admin";
     const email = "admin@tec.mx";
     const permissions = "Admin";
 
-    bcrypt.genSalt(10, (error, salt) => {
-        bcrypt.hash(pass, salt, async (error, hash) => {
-            let usuarioAgregar = {
-                "username": user, "password": hash, "fullName": fName, "email": email, "permissions": permissions
-            };
-            data = await db.collection("users").insertOne(usuarioAgregar);
-        })
-    })
+    // Hash password using bcrypt
+    const salt = await bcrypt.genSalt(10);
+    console.log(salt);
+    pass = await bcrypt.hash(pass, salt);
 
+    let usuarioAgregar = {
+        "username": user, "password": pass, "fullName": fName, "email": email, "permissions": permissions
+    };
+    usuarioAgregar["id"] = await get_id(db, "users");
+    data = await db.collection("users").insertOne(usuarioAgregar);
 
 }
+
+
+
 async function main() {
     try {
         let db = await connectDB(); // Wait for the database connection
