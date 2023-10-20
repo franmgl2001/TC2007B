@@ -94,7 +94,19 @@ test("Test crud tickets", async () => {
 
 
 
+test("Test reports", async () => {
+    const response = await request(app).get("/report/pie/Prioridad").set("Authentication", token);
+    expect(response.status).toBe(200);
 
+    const response2 = await request(app).get("/report/classroom/Prioridad").set("Authentication", token);
+    expect(response2.status).toBe(200);
+
+    const response3 = await request(app).get("/report/incidents").set("Authentication", token);
+    expect(response3.status).toBe(200);
+
+
+}
+);
 
 
 test("Test login", async () => {
@@ -104,4 +116,11 @@ test("Test login", async () => {
     });
 
     expect(response.status).toBe(200);
+
+    const response2 = await request(app).post("/login").send({
+        "username": "admin",
+        "password": "3891"
+    });
+
+    expect(response2.status).toBe(401);
 });
