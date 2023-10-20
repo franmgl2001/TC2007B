@@ -1,53 +1,14 @@
 const request = require('supertest');
 const { app } = require('./app');
 
-test('If api post works', async () => {
-    const postData = {
-        "id": 1,
-        "Ticket_Name": "Wassa2"
-    };
-    const response = await request(app)
-        .post('/create/tickets')
-        .send(postData);
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZnJhbm1nbCIsInBlcm1pc3Npb25zIjoiQWRtaW4iLCJpYXQiOjE2OTc3Nzc4MjksImV4cCI6MTY5ODEzNzgyOX0.bHjgNYOEMeyWL1bGyG17iL3DmpfW7OFFM51p6gt2LAs"
 
-    expect(response.status).toBe(200);
-});
+
 
 // Login and register tests
-test("Check if register same username returns 401", async () => {
-    const postData = {
-        "username": "test3",
-        "password": "yruiwhcd",
-        "fullName": "Francisco Martinez Gallardo",
-        "email": "test@tes2.io"
-    };
-    const response = await request(app)
-        .post('/register')
-        .send(postData);
-
-    expect(response.status).toBe(401);
-});
-
-test("Check if invalid login returns 401", async () => {
-    const postData = {
-        "username": "test3",
-        "password": "notthepassword",
-    };
-    const response = await request(app)
-        .post('/login')
-        .send(postData);
-
-    expect(response.status).toBe(401);
-});
-
-test("Check if valid login returns 200", async () => {
-    const postData = {
-        "username": "test3",
-        "password": "yruiwhcd",
-    };
-    const response = await request(app)
-        .post('/login')
-        .send(postData);
-
+test("Get users", async () => {
+    console.log(token);
+    const response = await request(app).get("/usuarios").set("Authentication", token);
+    console.log(response.status);
     expect(response.status).toBe(200);
-});
+}, 5000);

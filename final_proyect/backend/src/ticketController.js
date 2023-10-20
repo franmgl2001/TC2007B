@@ -129,8 +129,6 @@ const updateTicket = async (request, response, db, jwt) => {
         return;
     }
     parametersFind["id"] = Number(request.params.id)
-    console.log(parametersFind)
-    console.log(updateValue)
     await db.collection('tickets').updateOne(parametersFind, { $set: updateValue });
 
     let data = await db.collection('tickets').findOne(parametersFind);
@@ -138,7 +136,6 @@ const updateTicket = async (request, response, db, jwt) => {
     delete data["_id"]
 
     await logger(verifiedToken.user, "actualizar ticket", request.params.id, db)
-    console.log(data)
     response.json(data);
 }
 
