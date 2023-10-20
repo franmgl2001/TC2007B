@@ -143,15 +143,21 @@ const getAllUsers = async (request, response, db, jwt) => {
         let token = request.get("Authentication");
         let verifiedToken = await jwt.verify(token, "secretKey");
         let user = verifiedToken.user;
+        console.log(user)
         let admin_user = await db.collection("users").findOne({ "username": user });
+        console.log(admin_user)
         if (admin_user.permissions != "Admin") {
+            console.log("no admin")
             response.sendStatus(401);
             return;
         }
+        console.log("admin")
         let data = await db.collection("users").find().project({ _id: 0, password: 0 }).toArray();
         response.set('Access-Control-Expose-Headers', 'X-Total-Count')
         response.set('X-Total-Count', data.length)
         data.password = undefined;
+
+        console.log(data)
 
         response.json(data);
     } catch {

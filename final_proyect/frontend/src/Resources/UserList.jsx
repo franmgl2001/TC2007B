@@ -6,19 +6,19 @@ export const UserList = () => {
 
     return (
         < List >
-        {isSmall ? (
+            {isSmall ? (
                 < SimpleList
-                primaryText={(record) => record.username}
-                secondaryText={(record) => record.fullName}
-                tertiaryText={(record) => record.email}
-            /> ) : (
-            <Datagrid >
-                <TextField source="username" label="Usuario" />
-                <TextField source="fullName" label="Nombre" />
-                <TextField source="email" />
-                <TextField source="permissions" label="Rol" />
-                <EditButton />
-            </Datagrid>
+                    primaryText={(record) => record.username}
+                    secondaryText={(record) => record.fullName}
+                    tertiaryText={(record) => record.email}
+                />) : (
+                <Datagrid >
+                    <TextField source="username" label="Usuario" />
+                    <TextField source="fullName" label="Nombre" />
+                    <TextField source="email" />
+                    <TextField source="permissions" label="Rol" />
+                    <EditButton />
+                </Datagrid>
             )}
         </List >
     );
@@ -80,17 +80,17 @@ export const UserEdit = () => {
     return (
         < Edit mutationMode="undoable" mutationOptions={{ onError }} >
             <SimpleForm>
-                <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row'}}>
-                    <TextInput source="username" label="Usuario" disabled sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
-                    <PasswordInput source="password" label="Contraseña" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
-                    <TextInput source="fullName" label="Nombre Completo" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
-                    <TextInput source="email" label="Email" sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                <div style={{ width: '100%', gap: 80, display: isSmallScreen ? 'block' : 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
+                    <TextInput source="username" label="Usuario" disabled sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
+                    <PasswordInput source="password" label="Contraseña" sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
+                    <TextInput source="fullName" label="Nombre Completo" sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
+                    <TextInput source="email" label="Email" sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
                     <SelectInput source="permissions" choices={[
                         { id: 'Admin', name: "Admin" },
                         { id: 'Coordinador', name: 'Coordinador' },
                         { id: 'Coordinador Nacional', name: 'Coordinador Nacional' },
                         { id: 'Ejecutivo', name: 'Ejecutivo' },
-                    ]} label="Rol"sx={{ marginBottom: isSmallScreen ? '10px' : '0'}}/>
+                    ]} label="Rol" sx={{ marginBottom: isSmallScreen ? '10px' : '0' }} />
 
                 </div>
             </SimpleForm>
