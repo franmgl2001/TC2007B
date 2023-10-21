@@ -8,4 +8,4 @@ const CustomFilter = ({ columns, ...props }) => (
     </Filter>
 );
 
-export default CustomFilter;
+export default CustomFilter 
